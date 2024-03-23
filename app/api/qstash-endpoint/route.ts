@@ -16,6 +16,8 @@ async function handler(req: NextRequest) {
 
   // call brian api
   const transactionCalldataResponse = await generateTransactionCalldata(prompt, address);
+  // store the result and id in Vercel Kv
+   
 
   await new Promise(resolve => setTimeout(resolve, 500));
   
