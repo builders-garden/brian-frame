@@ -12,7 +12,7 @@ export async function createNewBrianTask(
   address: string
 ) {
   const message = await qstashClient.publishJSON({
-    url: "https://c17b-2001-b07-a72-af71-a8fc-d40c-69fd-b9c6.ngrok-free.app/api/brian-worker",
+    url: `${vercelURL()}/api/brian-worker`,
     body: {
       prompt,
       address,
