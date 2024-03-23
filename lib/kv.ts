@@ -11,5 +11,17 @@ export const storeBrianTransactionObject = async (
 
   return stashId;
 };
-// read: stashid -> 3 options
-// read: stashid -> calldata (frame transaction)
+
+export const getBrianTransactionCalldata = async (stashId: number, userChoice: number) => {
+    const transactionCalldata = await kv.get<TransactionCalldataResponse>(`request/${stashId}`);
+    // get the transaction calldata of the chosen transaction object
+    const transactionCalldataForUser = transactionCalldata?.result[userChoice]?.data;
+    return transactionCalldataForUser;
+}
+
+export const getBrianTransactionOptions = async (stashId: number) => {
+    const transactionCalldata = await kv.get<TransactionCalldataResponse>(`request/${stashId}`);
+    // get the transaction options
+    const transactionOptions = transactionCalldata?.result;
+    return transactionOptions;
+}
