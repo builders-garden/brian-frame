@@ -2,13 +2,13 @@
 
 import axios, { AxiosError, AxiosResponse } from "axios";
 
-interface Protocol {
+export interface Protocol {
   key: string;
   name: string;
   logoURI: string;
 }
 
-interface TransactionStep {
+export interface TransactionStep {
   chainId: number;
   blockNumber: number;
   from: string;
@@ -20,7 +20,7 @@ interface TransactionStep {
   protocol: Protocol;
 }
 
-interface Token {
+export interface Token {
   address: string;
   chainId: number;
   symbol: string;
@@ -31,7 +31,7 @@ interface Token {
   priceUSD: string;
 }
 
-interface Transaction {
+export interface Transaction {
   description: string;
   action: string;
   data: TransactionStep[];
@@ -49,7 +49,7 @@ interface Transaction {
   toAddress: string;
 }
 
-interface TransactionCalldataResponse {
+export interface TransactionCalldataResponse {
   result: Transaction[];
 }
 
