@@ -1,7 +1,5 @@
-import { createPublicClient, encodeFunctionData, http, parseUnits } from "viem";
-import { getBrianTransactionCalldata, getBrianTransactionOptions } from "../../../lib/kv";
-import { NextResponse } from "next/server";
-import { base, optimism } from "viem/chains";
+import { encodeFunctionData } from "viem";
+import { getBrianTransactionOptions } from "../../../lib/kv";
 import { ERC20_ABI } from "../../../lib/constants/erc20";
 
 export const POST = async (req: Request) => {
