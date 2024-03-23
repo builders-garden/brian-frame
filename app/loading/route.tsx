@@ -77,11 +77,7 @@ const handleRequest = frames(async (ctx) => {
     if (timeDiff > 1000 * 30) {
       return {
         postUrl: `/loading?id=${requestId}&requestTimestamp=${requestTimestamp}&status=loading`,
-        image: (
-          <div tw="text-blue-500 flex p-8">
-            Taking a little longer than expected, click back in next 2-3 seconds
-          </div>
-        ),
+        image: `${vercelURL()}/images/loading-timeout.png`,
         buttons: [
           <Button
             action="post"
