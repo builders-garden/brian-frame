@@ -30,9 +30,6 @@
     "uuid": "^9.0.1",
     "viem": "^2.8.18"
   },
-  "engines": {
-    "node": ">=18.17.0"
-  },
   "devDependencies": {
     "@frames.js/debugger": "^0.1.9",
     "@types/node": "^18.17.0",
