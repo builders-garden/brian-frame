@@ -11,21 +11,13 @@ export async function createNewBrianTask(
   prompt: string,
   address: string
 ) {
-  const res = await fetch(
-    `https://qstash.upstash.io/v2/publish/https://brian-frame.builders.garden/api/brian-worker`,
-    {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${process.env.QSTASH_TOKEN}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        prompt,
-        address,
-        id,
-      }),
-    }
-  );
-  const response = await res.json();
-  console.log(response);
+  const message = await qstashClient.publishJSON({
+    url: "https://brian-frame.builders.garden/api/brian-worker",
+    body: {
+      prompt,
+      address,
+      id,
+    },
+  });
+  console.log(message);
 }
