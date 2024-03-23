@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { verifySignatureAppRouter } from "@upstash/qstash/dist/nextjs";
+import { generateTransactionCalldata } from "../../../lib/brian-api";
 
 async function handler(req: NextRequest) {
   await new Promise((r) => setTimeout(r, 1000));
@@ -8,20 +9,17 @@ async function handler(req: NextRequest) {
   let id: number;
 
   const data = await req.json();
+  // extract data params from the request
+  prompt = data.prompt;
+  address = data.address;
+  id = data.id;
 
-  await fetch('https://firstqstashmessage.requestcatcher.com/test', {
-      method: 'POST',
-      body: JSON.stringify(data),
-      headers: { 'Content-Type': 'application/json' }
-  });
+  // call brian api
+  const transactionCalldataResponse = await generateTransactionCalldata(prompt, address);
+
   await new Promise(resolve => setTimeout(resolve, 500));
   
-
   return NextResponse.json({ name: "John Doe Serverless" });
 }
 
 export const POST = verifySignatureAppRouter(handler);
-
-// body -> parametri
-// brian api call
-// salvare su redis risultato brian api call con id
