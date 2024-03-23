@@ -4,6 +4,7 @@ import { generateTransactionCalldata } from "../../../lib/brian-api";
 import { storeBrianTransactionObject } from "../../../lib/kv";
 
 async function handler(req: NextRequest) {
+  console.log("Processing task...");
   const body = await req.json();
   // extract data params from the request
   const { prompt, id, address } = body;

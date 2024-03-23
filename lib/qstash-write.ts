@@ -11,17 +11,21 @@ export async function createNewBrianTask(
   prompt: string,
   address: string
 ) {
-  await qstashClient.publishJSON({
-    url: `${vercelURL()}/api/brian-task`, // deploy on vercel and change the url
-    body: {
-      prompt,
-      address,
-      id,
-    },
-  });
-  console.log("Task created", {
-    id,
-    prompt,
-    address,
-  });
+  const res = await fetch(
+    `https://qstash.upstash.io/v2/publish/https://brian-frame.builders.garden/api/brian-worker`,
+    {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${process.env.QSTASH_TOKEN}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        prompt,
+        address,
+        id,
+      }),
+    }
+  );
+  const response = await res.json();
+  console.log(response);
 }
