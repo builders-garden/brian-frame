@@ -26,7 +26,6 @@ const handleRequest = frames(async (ctx) => {
     };
   }
 
-  console.log(inputText, captchaId);
   const isValid = await validateCaptchaChallenge(
     captchaId!,
     parseInt(inputText)
@@ -49,15 +48,21 @@ const handleRequest = frames(async (ctx) => {
     };
   }
   return {
-    postUrl: "/captcha",
+    postUrl: "/loading?id=" + captchaId,
     image: (
-      <div className="text-blue-500" style={{ display: "flex" }}>
-        Success!
+      <div tw="text-blue-500 flex p-8">
+        Type things like - Swap 10 USDC for ETH - and I&apos;ll help you build
+        the transaction
       </div>
     ),
+    textInput: "I want to swap 10 USDC for ETH",
     buttons: [
-      <Button action="post" key="1" target={"/captcha"}>
-        LFG
+      <Button
+        action="post"
+        key="1"
+        target={`/loading?id=${captchaId}&requestTimestamp=${Date.now()}&status=start`}
+      >
+        Build transaction
       </Button>,
     ],
   };

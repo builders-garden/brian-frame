@@ -3,23 +3,35 @@ import { TransactionCalldataResponse } from "./brian-api";
 
 export const storeBrianTransactionObject = async (
   transaction: TransactionCalldataResponse,
-  stashId: number
+  id: number
 ) => {
-  await kv.set(`request/${stashId}`, transaction);
+  await kv.set(`request/${id}`, transaction);
 
-  return stashId;
+  return id;
 };
 
-export const getBrianTransactionCalldata = async (stashId: number, userChoice: number) => {
-    const transactionCalldata = await kv.get<TransactionCalldataResponse>(`request/${stashId}`);
-    // get the transaction calldata of the chosen transaction object
-    const transactionCalldataForUser = transactionCalldata?.result[userChoice]?.data;
-    return transactionCalldataForUser;
-}
+export const deleteBrianTransactionObject = async (id: number) => {
+  await kv.del(`request/${id}`);
+};
 
-export const getBrianTransactionOptions = async (stashId: number) => {
-    const transactionCalldata = await kv.get<TransactionCalldataResponse>(`request/${stashId}`);
-    // get the transaction options
-    const transactionOptions = transactionCalldata?.result;
-    return transactionOptions;
-}
+export const getBrianTransactionCalldata = async (
+  id: number,
+  userChoice: number
+) => {
+  const transactionCalldata = await kv.get<TransactionCalldataResponse>(
+    `request/${id}`
+  );
+  // get the transaction calldata of the chosen transaction object
+  const transactionCalldataForUser =
+    transactionCalldata?.result[userChoice]?.data;
+  return transactionCalldataForUser;
+};
+
+export const getBrianTransactionOptions = async (id: number) => {
+  const transactionCalldata = await kv.get<TransactionCalldataResponse>(
+    `request/${id}`
+  );
+  // get the transaction options
+  const transactionOptions = transactionCalldata?.result;
+  return transactionOptions;
+};

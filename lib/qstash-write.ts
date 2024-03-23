@@ -1,16 +1,27 @@
 import { Client } from "@upstash/qstash";
+import { vercelURL } from "../app/utils";
 
 const qstashClient = new Client({
   // Add your token to a .env file
   token: process.env.QSTASH_TOKEN!,
 });
 
-export async function startBackgroundJob(prompt: string, address: string) {
+export async function createNewBrianTask(
+  id: string,
+  prompt: string,
+  address: string
+) {
   await qstashClient.publishJSON({
-    "url": "https://localhost:3000/api/worker", // deploy on vercel and change the url
+    url: `${vercelURL()}/api/brian-task`, // deploy on vercel and change the url
     body: {
-      "prompt": prompt,
-      "address": address,
-    }
+      prompt,
+      address,
+      id,
+    },
+  });
+  console.log("Task created", {
+    id,
+    prompt,
+    address,
   });
 }
