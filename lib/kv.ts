@@ -26,7 +26,7 @@ export const getBrianTransactionCalldata = async (
     `request/${id}`
   );
   // get from chain id
-  const fromChainId = transactionCalldata?.result?.data[userChoice]?.fromChainId;
+  const fromChainId = transactionCalldata?.result?.data[userChoice]!.steps[0]?.chainId;
   // get the transaction calldata of the chosen transaction object
   const transactionCalldataForUser =
     transactionCalldata?.result?.data[userChoice]!.steps[0]?.data;
@@ -36,7 +36,7 @@ export const getBrianTransactionCalldata = async (
   const transactionToAddress = transactionCalldata?.result?.data[userChoice]!.steps[0]?.to;
 
   return {
-    chainId: "eip155:" + fromChainId?.toString(),
+    chainId: "eip155:".concat(fromChainId!.toString()),
     method: "eth_sendTransaction",
     params: {
       abi: LIFI_DIAMOND_PROXY_ABI, 

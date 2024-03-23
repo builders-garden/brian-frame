@@ -15,9 +15,9 @@ export const POST = async (req: Request) => {
     transactionData?.result?.data[userChoice]!;
   // get the transaction values of the chosen transaction object
   const tokenAddress = transactionCalldataForUser.fromToken.address;
-  const spender = transactionCalldataForUser.toAddress;
+  const spender = transactionCalldataForUser.steps[0]?.to;
   const amount = transactionCalldataForUser.fromAmount;
-  const chainId = transactionCalldataForUser.fromChainId;
+  const chainId = transactionCalldataForUser.steps[0]?.chainId;
 
   const approveData = encodeFunctionData({
     abi: ERC20_ABI,
@@ -28,7 +28,7 @@ export const POST = async (req: Request) => {
   console.log("Transaction calldata", approveData);
 
   return {
-    chainId: "eip155:" + chainId?.toString(),
+    chainId: "eip155:".concat(chainId!.toString()),
     method: "eth_sendTransaction",
     params: {
       abi: ERC20_ABI, 
