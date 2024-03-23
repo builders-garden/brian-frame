@@ -18,12 +18,10 @@ export default function Page({ searchParams }: NextServerPageProps) {
         state={{}}
         previousFrame={previousFrame}
       >
-        <FrameImage aspectRatio="1:1">
-          <div tw="w-full h-full bg-slate-700 text-white justify-center items-center flex flex-col">
-            Hi, I&apos;m Brian, a Web3 AI assistant here to help you executing
-            your transactions.
-          </div>
-        </FrameImage>
+        <FrameImage
+          aspectRatio="1:1"
+          src="https://brian-frame.builders.garden/images/intro.gif"
+        />
         <FrameButton>Start</FrameButton>
       </FrameContainer>
     </div>
