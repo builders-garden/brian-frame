@@ -51,12 +51,10 @@ const handleRequest = frames(async (ctx) => {
   if (requestStatus === TransactionCalldataRequestStatus.ERROR) {
     return {
       postUrl: "/results?id=${requestId}",
-      image: (
-        <div tw="text-blue-500 flex p-8">
-          Ops, I was not able to build your transaction, please try again with
-          another prompt.
-        </div>
-      ),
+      image: `${vercelURL()}/images/error.png`,
+      imageOptions: {
+        aspectRatio: "1:1",
+      },
       buttons: [
         <Button
           action="post"
@@ -78,6 +76,9 @@ const handleRequest = frames(async (ctx) => {
       return {
         postUrl: `/loading?id=${requestId}&requestTimestamp=${requestTimestamp}&status=loading`,
         image: `${vercelURL()}/images/loading-timeout.png`,
+        imageOptions: {
+          aspectRatio: "1:1",
+        },
         buttons: [
           <Button
             action="post"
@@ -99,6 +100,9 @@ const handleRequest = frames(async (ctx) => {
     return {
       postUrl: `/results?id=${requestId}`,
       image: <div tw="text-blue-500 flex p-8">Loading...</div>,
+      imageOptions: {
+        aspectRatio: "1:1",
+      },
       buttons: [
         <Button
           action="post"

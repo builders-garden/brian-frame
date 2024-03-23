@@ -1,5 +1,6 @@
 import { createFrames, Button } from "frames.js/next";
 import { getFrameMessage } from "frames.js/getFrameMessage";
+import { vercelURL } from "../utils";
 
 const frames = createFrames();
 const handleRequest = frames(async (ctx) => {
@@ -15,7 +16,7 @@ const handleRequest = frames(async (ctx) => {
       : `https://optimistic.etherscan.io/tx/`;
   return {
     postUrl: "/captcha/validate?id=",
-    image: <div tw="text-blue-500 flex">{message.transactionId}</div>,
+    image: `${vercelURL()}/images/end.png`,
     imageOptions: {
       aspectRatio: "1:1",
     },

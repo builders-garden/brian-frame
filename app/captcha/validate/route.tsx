@@ -37,11 +37,7 @@ const handleRequest = frames(async (ctx) => {
     console.error("Invalid captcha", { captchaId, inputText });
     return {
       postUrl: "/captcha",
-      image: (
-        <div className="text-blue-500" style={{ display: "flex" }}>
-          Invalid input text
-        </div>
-      ),
+      image: `${vercelURL()}/images/captcha-error.png`,
       buttons: [
         <Button action="post" key="1" target={"/captcha"}>
           Retry
