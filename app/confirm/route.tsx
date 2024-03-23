@@ -1,6 +1,9 @@
 import { createFrames, Button } from "frames.js/next";
 import { generateCaptchaChallenge } from "../../lib/captcha";
-import { getBrianTransactionCalldata } from "../../lib/kv";
+import {
+  getBrianTransactionCalldata,
+  getBrianTransactionOptions,
+} from "../../lib/kv";
 import { getFrameMessage } from "frames.js/getFrameMessage";
 
 const frames = createFrames();
@@ -10,16 +13,26 @@ const handleRequest = frames(async (ctx) => {
   const requestId = searchParams.get("id");
   const body = await ctx.request.json();
   const message = await getFrameMessage(body);
-  const txCalldata = await getBrianTransactionCalldata(
-    requestId!,
-    message.buttonIndex - 1
-  );
+  const txData = await getBrianTransactionOptions(requestId!);
   return {
     postUrl: "/captcha/validate?id=",
-    image: <div tw="text-blue-500 flex">Exec</div>,
+    image: (
+      <div tw="text-blue-500 flex">
+        {txData.result?.data[message.buttonIndex - 1]?.description}
+      </div>
+    ),
     buttons: [
-      <Button action="tx" key="1" target={`/captcha/validate`}>
+      <Button
+        action="tx"
+        key="1"
+        target={`/api/calldata?id=${requestId}&choice=${
+          message.buttonIndex - 1
+        }`}
+      >
         Confirm
+      </Button>,
+      <Button action="post" key="2" target={`/loading?id=${requestId}`}>
+        Go back
       </Button>,
     ],
   };

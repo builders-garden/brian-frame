@@ -8,7 +8,12 @@ const handleRequest = frames(async () => {
   return {
     postUrl: "/captcha/validate?id=" + id,
     image: (
-      <div tw="text-blue-500 flex">
+      <div
+        tw="text-blue-500 flex"
+        style={{
+          fontFamily: "Changa-VariableFont",
+        }}
+      >
         {numA} + {numB} = ?
       </div>
     ),

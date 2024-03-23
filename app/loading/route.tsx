@@ -135,13 +135,13 @@ const handleRequest = frames(async (ctx) => {
       </div>
     ),
     buttons: [
-      <Button action="post" key="1" target={`/results?id=${requestId}`}>
+      <Button action="post" key="1" target={`/confirm?id=${requestId}`}>
         Option 1️⃣
       </Button>,
-      <Button action="post" key="2" target={`/results?id=${requestId}`}>
+      <Button action="post" key="2" target={`/confirm?id=${requestId}`}>
         Option 2️⃣
       </Button>,
-      <Button action="post" key="3" target={`/results?id=${requestId}`}>
+      <Button action="post" key="3" target={`/confirm?id=${requestId}`}>
         Option 3️⃣
       </Button>,
       <Button
