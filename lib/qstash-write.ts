@@ -12,12 +12,12 @@ export async function createNewBrianTask(
   address: string
 ) {
   const message = await qstashClient.publishJSON({
-    url: "https://brian-frame.builders.garden/api/brian-worker",
+    url: "https://c17b-2001-b07-a72-af71-a8fc-d40c-69fd-b9c6.ngrok-free.app/api/brian-worker",
     body: {
       prompt,
       address,
       id,
     },
   });
-  console.log(message);
+  console.log("Task created:", message);
 }

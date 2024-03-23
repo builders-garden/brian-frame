@@ -4,7 +4,6 @@ import { generateTransactionCalldata } from "../../../lib/brian-api";
 import { storeBrianTransactionObject } from "../../../lib/kv";
 
 async function handler(req: NextRequest) {
-  console.log("Processing task...");
   const body = await req.json();
   // extract data params from the request
   const { prompt, id, address } = body;
@@ -25,6 +24,8 @@ async function handler(req: NextRequest) {
     transactionCalldataResponse!,
     id
   );
+
+  console.log("Transaction calldata stored", storeBrianResultInKv);
 
   return NextResponse.json({ name: "Brian transaction stored" });
 }

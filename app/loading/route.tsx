@@ -6,6 +6,7 @@ import {
 import { getFrameMessage } from "frames.js/getFrameMessage";
 import { parseUnits } from "viem";
 import { vercelURL } from "../utils";
+import { TransactionCalldataRequestStatus } from "../../lib/brian-api";
 
 const frames = createFrames();
 const handleRequest = frames(async (ctx) => {
@@ -45,8 +46,9 @@ const handleRequest = frames(async (ctx) => {
     }
   }
 
-  const txOptions = await getBrianTransactionOptions(parseInt(requestId!));
-  if (txOptions?.length === 0) {
+  const { result: txOptions, status: requestStatus } =
+    await getBrianTransactionOptions(requestId!);
+  if (requestStatus === TransactionCalldataRequestStatus.ERROR) {
     return {
       postUrl: "/results?id=${requestId}",
       image: (
@@ -56,14 +58,18 @@ const handleRequest = frames(async (ctx) => {
         </div>
       ),
       buttons: [
-        <Button action="post" key="1" target={`/build?id=${requestId}`}>
+        <Button
+          action="post"
+          key="1"
+          target={`/build?id=${requestId}&restart=true`}
+        >
           Try again
         </Button>,
       ],
     };
   }
 
-  if (!txOptions) {
+  if (requestStatus === TransactionCalldataRequestStatus.LOADING) {
     const requestTimestamp = searchParams.get("requestTimestamp");
     const timeDiff = Date.now() - parseInt(requestTimestamp!);
 
@@ -84,7 +90,11 @@ const handleRequest = frames(async (ctx) => {
           >
             Show response 🔁
           </Button>,
-          <Button action="post" key="1" target={`/build?id=${requestId}`}>
+          <Button
+            action="post"
+            key="1"
+            target={`/build?id=${requestId}&restart=true`}
+          >
             Start over
           </Button>,
         ],
@@ -105,19 +115,24 @@ const handleRequest = frames(async (ctx) => {
     };
   }
 
+  console.log(JSON.stringify(txOptions, null, 2));
   return {
     postUrl: `/results?id=${requestId}`,
     image: (
       <div tw="text-blue-500 flex p-8">
-        {txOptions.map((txOp, index) => {
+        {txOptions?.data.map((txData, index) => {
           return (
-            <div key={txOp.action}>
+            <div key={txOptions.action} tw="flex flex-col">
               <img
+                width="20px"
                 alt={`logo-${index}`}
-                src={txOp.data[0]?.protocol.logoURI}
+                src={txData.steps[0]!.protocol.logoURI}
               ></img>
-              {txOp.data[0]?.protocol.name} -{" "}
-              {parseUnits(txOp.toAmountMin, txOp.toToken.decimals).toString()}
+              {txData.steps[0]!.protocol.name} -{" "}
+              {parseUnits(
+                txData.toAmountMin,
+                txData.toToken.decimals
+              ).toString()}
             </div>
           );
         })}

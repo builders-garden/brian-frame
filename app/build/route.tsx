@@ -9,7 +9,7 @@ const handleRequest = frames(async (ctx) => {
   const id = searchParams.get("id");
   const restart = searchParams.get("restart") === "true";
   if (restart) {
-    await deleteBrianTransactionObject(parseInt(id!));
+    await deleteBrianTransactionObject(id!);
   }
   return {
     postUrl: "/loading?id=" + id,

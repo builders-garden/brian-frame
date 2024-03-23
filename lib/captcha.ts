@@ -25,7 +25,6 @@ export const getCaptchaChallenge = async (
 export const generateCaptchaChallenge = async () => {
   const numA = generateRandomNumberInRange(10, 20);
   const numB = generateRandomNumberInRange(10, 20);
-  console.log(numA, numB);
   const id = await storeCaptchaChallenge({ numA, numB, result: numA + numB });
   return {
     id,

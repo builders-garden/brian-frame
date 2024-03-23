@@ -31,10 +31,8 @@ export interface Token {
   priceUSD: string;
 }
 
-export interface Transaction {
+export interface TransactionData {
   description: string;
-  action: string;
-  data: TransactionStep[];
   gasCostUSD: string;
   fromChainId: number;
   fromAmountUSD: string;
@@ -47,10 +45,23 @@ export interface Transaction {
   toAmountMin: string;
   toToken: Token;
   toAddress: string;
+  steps: TransactionStep[];
+}
+
+export interface Transaction {
+  action: string;
+  data: TransactionData[];
+}
+
+export enum TransactionCalldataRequestStatus {
+  ERROR = "error",
+  SUCCESS = "success",
+  LOADING = "loading",
 }
 
 export interface TransactionCalldataResponse {
-  result: Transaction[];
+  result?: Transaction;
+  status: TransactionCalldataRequestStatus;
 }
 
 const apiKey = process.env.BRIAN_API_KEY;
@@ -69,24 +80,34 @@ export async function generateTransactionCalldata(
     address,
   };
 
-  try {
-    const response: AxiosResponse<TransactionCalldataResponse> =
-      await axios.post(url, data, { headers });
-      // check if the response is null or undefined
-      if (response.data === null || response.data === undefined) {
-        return { result: [] };
-      }
-      // check if the response is empty
-      if (response.data.result.length === 0) {
-        return { result: [] };
-      }
-      // check if no routes are available
-      if (!response.data.result[0]!.data ) {
-        return { result: [] };
-      }
-    return response.data;
-  } catch (error: any) {
-    console.error("Error:", error.response?.status, error.response?.data);
-    return { result: [] };
+  const response = await fetch(url, {
+    method: "POST",
+    headers: {
+      "x-brian-api-key": apiKey!,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+  const responseData = await response.json();
+  if (!response.ok || response.status !== 200) {
+    console.error("Error in getting transaction calldata", responseData);
+    return { status: TransactionCalldataRequestStatus.ERROR };
   }
+
+  if (responseData === null || responseData === undefined) {
+    return { status: TransactionCalldataRequestStatus.ERROR };
+  }
+  // check if the response is empty
+  if (responseData.result.length === 0) {
+    return { status: TransactionCalldataRequestStatus.ERROR };
+  }
+  // check if no routes are available
+  if (!responseData.result[0]!.data) {
+    return { status: TransactionCalldataRequestStatus.ERROR };
+  }
+
+  return {
+    result: responseData.result[0],
+    status: TransactionCalldataRequestStatus.SUCCESS,
+  };
 }

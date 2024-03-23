@@ -4,7 +4,6 @@ import { createNewBrianTask } from "../../../lib/qstash-write";
 export const POST = async (req: NextRequest) => {
   const secret = req.headers.get("x-secret");
   if (secret !== process.env.SECRET) {
-    console.log("Invalid secret");
     return NextResponse.json({
       success: false,
       message: "Invalid secret",

@@ -7,6 +7,7 @@ const handleRequest = frames(async (ctx) => {
   const url = new URL(ctx.request.url);
   const { searchParams } = url;
   const captchaId = searchParams.get("id");
+  console.log("Validating captcha", { captchaId });
   const body = await ctx.request.json();
   const message = await getFrameMessage(body);
   const inputText = message?.inputText;

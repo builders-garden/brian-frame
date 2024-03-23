@@ -1,5 +1,8 @@
 import { kv } from "@vercel/kv";
-import { TransactionCalldataResponse } from "./brian-api";
+import {
+  TransactionCalldataRequestStatus,
+  TransactionCalldataResponse,
+} from "./brian-api";
 
 export const storeBrianTransactionObject = async (
   transaction: TransactionCalldataResponse,
@@ -10,12 +13,12 @@ export const storeBrianTransactionObject = async (
   return id;
 };
 
-export const deleteBrianTransactionObject = async (id: number) => {
+export const deleteBrianTransactionObject = async (id: string) => {
   await kv.del(`request/${id}`);
 };
 
 export const getBrianTransactionCalldata = async (
-  id: number,
+  id: string,
   userChoice: number
 ) => {
   const transactionCalldata = await kv.get<TransactionCalldataResponse>(
@@ -23,15 +26,18 @@ export const getBrianTransactionCalldata = async (
   );
   // get the transaction calldata of the chosen transaction object
   const transactionCalldataForUser =
-    transactionCalldata?.result[userChoice]?.data;
+    transactionCalldata?.result?.data[userChoice]!.steps[0]?.data;
   return transactionCalldataForUser;
 };
 
-export const getBrianTransactionOptions = async (id: number) => {
+export const getBrianTransactionOptions = async (
+  id: string
+): Promise<TransactionCalldataResponse> => {
   const transactionCalldata = await kv.get<TransactionCalldataResponse>(
     `request/${id}`
   );
-  // get the transaction options
-  const transactionOptions = transactionCalldata?.result;
-  return transactionOptions;
+  if (!transactionCalldata) {
+    return { status: TransactionCalldataRequestStatus.LOADING };
+  }
+  return transactionCalldata;
 };

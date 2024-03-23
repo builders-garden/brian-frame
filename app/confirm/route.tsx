@@ -10,7 +10,7 @@ const handleRequest = frames(async (ctx) => {
   const requestId = searchParams.get("id");
   const body = await ctx.request.json();
   const message = await getFrameMessage(body);
-  const txData = await getBrianTransactionCalldata(
+  const txCalldata = await getBrianTransactionCalldata(
     requestId!,
     message.buttonIndex - 1
   );
