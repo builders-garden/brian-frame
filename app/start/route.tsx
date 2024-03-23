@@ -7,14 +7,15 @@ const handleRequest = frames(async () => {
   return {
     postUrl: "/captcha/validate?id=" + id,
     image: (
-      <div tw="text-blue-500 flex">
-        {numA} + {numB} = ?
+      <div tw="text-blue-500 flex p-8">
+        Hi, I&apos;m Brian, a Web3 AI assistant here to help you executing your
+        transactions.
       </div>
     ),
-    textInput: "Enter the result",
+    textInput: "I want to swap 10 USDC for ETH",
     buttons: [
       <Button action="post" key="1" target={`/captcha/validate?id=${id}`}>
-        Confirm
+        Build transaction
       </Button>,
     ],
   };
