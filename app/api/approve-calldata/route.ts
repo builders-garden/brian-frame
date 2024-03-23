@@ -6,6 +6,7 @@ export const POST = async (req: Request) => {
   const { searchParams } = url;
   const requestId = searchParams.get("id");
   const choice = searchParams.get("choice");
+  // TODO: return approve allowance calldata
   const txCalldata = await getBrianTransactionCalldata(
     requestId!,
     parseInt(choice!)

@@ -37,8 +37,8 @@ const handleRequest = frames(async (ctx) => {
         <Button
           action="tx"
           key="1"
-          target={`/approve?id=${requestId}&choice=${choiceIndex}`}
-          post_url="/results?chainId="
+          target={`/approve-calldata?id=${requestId}&choice=${choiceIndex}`}
+          post_url={`/confirm?id=${requestId}`}
         >
           Approve
         </Button>,
