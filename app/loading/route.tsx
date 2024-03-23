@@ -7,8 +7,8 @@ import { getFrameMessage } from "frames.js/getFrameMessage";
 import { parseUnits } from "viem";
 import { vercelURL } from "../utils";
 import { TransactionCalldataRequestStatus } from "../../lib/brian-api";
+import { frames } from "../../lib/frames";
 
-const frames = createFrames();
 const handleRequest = frames(async (ctx) => {
   const url = new URL(ctx.request.url);
   const { searchParams } = url;

@@ -6,8 +6,8 @@ import {
 } from "../../lib/kv";
 import { getFrameMessage } from "frames.js/getFrameMessage";
 import { checkAllowance } from "../../lib/utils";
+import { frames } from "../../lib/frames";
 
-const frames = createFrames();
 const handleRequest = frames(async (ctx) => {
   const url = new URL(ctx.request.url);
   const { searchParams } = url;

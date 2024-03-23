@@ -3,11 +3,12 @@ import { generateCaptchaChallenge } from "../../lib/captcha";
 import { join } from "path";
 import * as fs from "fs";
 import { vercelURL } from "../utils";
+import { frames } from "../../lib/frames";
 
-const frames = createFrames();
+const fontPath = join(process.cwd(), "Changa-VariableFont.ttf");
+let fontData = fs.readFileSync(fontPath);
+
 const handleRequest = frames(async () => {
-  //const fontPath = join(process.cwd(), "Changa-VariableFont.ttf");
-  //let fontData = fs.readFileSync(fontPath);
   const { id, numA, numB } = await generateCaptchaChallenge();
   return {
     ratio: "1:1",
@@ -27,6 +28,12 @@ const handleRequest = frames(async () => {
     ),
     imageOptions: {
       aspectRatio: "1:1",
+      fonts: [
+        {
+          data: fontData,
+          name: "Changa",
+        },
+      ],
     },
     /*imageOptions: {
       fonts: [

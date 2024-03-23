@@ -1,8 +1,8 @@
-import { createFrames, Button } from "frames.js/next";
+import { Button } from "frames.js/next";
 import { getFrameMessage } from "frames.js/getFrameMessage";
 import { vercelURL } from "../utils";
+import { frames } from "../../lib/frames";
 
-const frames = createFrames();
 const handleRequest = frames(async (ctx) => {
   const url = new URL(ctx.request.url);
   const { searchParams } = url;
