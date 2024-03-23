@@ -1,6 +1,6 @@
 // brian api interaction https://docs.brianknows.org/brian-api-beta/apis/agent-apis
 
-import axios, { AxiosError, AxiosResponse } from "axios";
+import axios, { AxiosResponse } from "axios";
 
 export interface Protocol {
   key: string;
@@ -58,7 +58,7 @@ const apiKey = process.env.BRIAN_API_KEY;
 export async function generateTransactionCalldata(
   prompt: string,
   address: string
-): Promise<TransactionCalldataResponse | null> {
+): Promise<TransactionCalldataResponse> {
   const url = "https://api.brianknows.org/api/v0/agent/transaction";
   const headers = {
     "x-brian-api-key": apiKey,
@@ -72,9 +72,21 @@ export async function generateTransactionCalldata(
   try {
     const response: AxiosResponse<TransactionCalldataResponse> =
       await axios.post(url, data, { headers });
+      // check if the response is null or undefined
+      if (response.data === null || response.data === undefined) {
+        return { result: [] };
+      }
+      // check if the response is empty
+      if (response.data.result.length === 0) {
+        return { result: [] };
+      }
+      // check if no routes are available
+      if (!response.data.result[0]!.data ) {
+        return { result: [] };
+      }
     return response.data;
   } catch (error: any) {
     console.error("Error:", error.response?.status, error.response?.data);
-    return null;
+    return { result: [] };
   }
 }
