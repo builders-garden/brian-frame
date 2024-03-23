@@ -31,12 +31,10 @@ const handleRequest = frames(async (ctx) => {
     if (!res.ok) {
       return {
         postUrl: "/build",
-        image: (
-          <div tw="text-blue-500 flex p-8">
-            Ops, I was not able to build your transaction, please try again with
-            another prompt.
-          </div>
-        ),
+        image: `${vercelURL()}/images/error.png`,
+        imageOptions: {
+          aspectRatio: "1:1",
+        },
         buttons: [
           <Button action="post" key="1" target={`/build?id=${requestId}`}>
             Start over ↩️
