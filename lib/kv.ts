@@ -3,6 +3,7 @@ import {
   TransactionCalldataRequestStatus,
   TransactionCalldataResponse,
 } from "./brian-api";
+import { LIFI_DIAMOND_PROXY_ABI } from "./constants/lifi-diamond-proxy-abi";
 
 export const storeBrianTransactionObject = async (
   transaction: TransactionCalldataResponse,
@@ -31,32 +32,21 @@ export const getBrianTransactionCalldata = async (
     transactionCalldata?.result?.data[userChoice]!.steps[0]?.data;
   // get the transaction value of the chosen transaction object
   const transactionValue = transactionCalldata?.result?.data[userChoice]!.steps[0]?.value;
-  // return the transaction object for the frame interaction
+  // get the transaction to address of the chosen transaction object
+  const transactionToAddress = transactionCalldata?.result?.data[userChoice]!.steps[0]?.to;
 
   return {
-    chainId: "eip155:10",
+    chainId: "eip155:" + fromChainId?.toString(),
     method: "eth_sendTransaction",
     params: {
-      abi: [...], // JSON ABI of the function selector and any errors
-      to: "0x00000000fcCe7f938e7aE6D3c335bD6a1a7c593D",
+      abi: LIFI_DIAMOND_PROXY_ABI, 
+      to: transactionToAddress,
       data: transactionCalldataForUser,
       value: transactionValue,
     },
   };
 };
 
-/*
-{
-    chainId: "eip155:10",
-    method: "eth_sendTransaction",
-    params: {
-      abi: [...], // JSON ABI of the function selector and any errors
-      to: "0x00000000fcCe7f938e7aE6D3c335bD6a1a7c593D",
-      data: "0x783a112b0000000000000000000000000000000000000000000000000000000000000e250000000000000000000000000000000000000000000000000000000000000001",
-      value: "984316556204476",
-    },
-  };
-*/
 export const getBrianTransactionOptions = async (
   id: string
 ): Promise<TransactionCalldataResponse> => {
