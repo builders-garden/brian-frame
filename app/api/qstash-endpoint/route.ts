@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { verifySignatureAppRouter } from "@upstash/qstash/dist/nextjs";
 import { generateTransactionCalldata } from "../../../lib/brian-api";
+import { storeBrianTransactionObject } from "../../../lib/kv";
 
 async function handler(req: NextRequest) {
-  await new Promise((r) => setTimeout(r, 1000));
   let prompt: string;
   let address: string;
   let id: number;
@@ -17,11 +17,9 @@ async function handler(req: NextRequest) {
   // call brian api
   const transactionCalldataResponse = await generateTransactionCalldata(prompt, address);
   // store the result and id in Vercel Kv
-   
+  const storeBrianResultInKv = await storeBrianTransactionObject(transactionCalldataResponse!, id);
 
-  await new Promise(resolve => setTimeout(resolve, 500));
-  
-  return NextResponse.json({ name: "John Doe Serverless" });
+  return NextResponse.json({ name: "Brian transaction stored" });
 }
 
 export const POST = verifySignatureAppRouter(handler);

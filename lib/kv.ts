@@ -1,8 +1,6 @@
 import { kv } from "@vercel/kv";
 import { TransactionCalldataResponse } from "./brian-api";
 
-// store the result and id in Vercel Kv
-
 export const storeBrianTransactionObject = async (
   transaction: TransactionCalldataResponse,
   stashId: number
