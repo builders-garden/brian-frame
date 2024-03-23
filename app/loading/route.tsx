@@ -39,7 +39,7 @@ const handleRequest = frames(async (ctx) => {
         ),
         buttons: [
           <Button action="post" key="1" target={`/build?id=${requestId}`}>
-            Start over
+            Start over ↩️
           </Button>,
         ],
       };
@@ -91,7 +91,7 @@ const handleRequest = frames(async (ctx) => {
             key="1"
             target={`/build?id=${requestId}&restart=true`}
           >
-            Start over
+            Start over ↩️
           </Button>,
         ],
       };
@@ -148,7 +148,7 @@ const handleRequest = frames(async (ctx) => {
         key="4"
         target={`/build?id=${requestId}&restart=true`}
       >
-        Start over
+        Start over ↩️
       </Button>,
     ],
   };

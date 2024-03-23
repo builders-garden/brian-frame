@@ -15,7 +15,7 @@ const handleRequest = frames(async (ctx) => {
   const message = await getFrameMessage(body);
   const txData = await getBrianTransactionOptions(requestId!);
   return {
-    postUrl: "/captcha/validate?id=",
+    postUrl: "/results",
     image: (
       <div tw="text-blue-500 flex">
         {txData.result?.data[message.buttonIndex - 1]?.description}
@@ -28,6 +28,7 @@ const handleRequest = frames(async (ctx) => {
         target={`/api/calldata?id=${requestId}&choice=${
           message.buttonIndex - 1
         }`}
+        post_url="/results?chainId="
       >
         Confirm
       </Button>,
