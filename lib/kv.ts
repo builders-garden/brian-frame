@@ -24,12 +24,39 @@ export const getBrianTransactionCalldata = async (
   const transactionCalldata = await kv.get<TransactionCalldataResponse>(
     `request/${id}`
   );
+  // get from chain id
+  const fromChainId = transactionCalldata?.result?.data[userChoice]?.fromChainId;
   // get the transaction calldata of the chosen transaction object
   const transactionCalldataForUser =
     transactionCalldata?.result?.data[userChoice]!.steps[0]?.data;
-  return transactionCalldataForUser;
+  // get the transaction value of the chosen transaction object
+  const transactionValue = transactionCalldata?.result?.data[userChoice]!.steps[0]?.value;
+  // return the transaction object for the frame interaction
+
+  return {
+    chainId: "eip155:10",
+    method: "eth_sendTransaction",
+    params: {
+      abi: [...], // JSON ABI of the function selector and any errors
+      to: "0x00000000fcCe7f938e7aE6D3c335bD6a1a7c593D",
+      data: transactionCalldataForUser,
+      value: transactionValue,
+    },
+  };
 };
 
+/*
+{
+    chainId: "eip155:10",
+    method: "eth_sendTransaction",
+    params: {
+      abi: [...], // JSON ABI of the function selector and any errors
+      to: "0x00000000fcCe7f938e7aE6D3c335bD6a1a7c593D",
+      data: "0x783a112b0000000000000000000000000000000000000000000000000000000000000e250000000000000000000000000000000000000000000000000000000000000001",
+      value: "984316556204476",
+    },
+  };
+*/
 export const getBrianTransactionOptions = async (
   id: string
 ): Promise<TransactionCalldataResponse> => {
