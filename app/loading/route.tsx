@@ -111,7 +111,6 @@ const handleRequest = frames(async (ctx) => {
     };
   }
 
-  console.log(JSON.stringify(txOptions, null, 2));
   return {
     postUrl: `/results?id=${requestId}`,
     image: (
