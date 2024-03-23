@@ -21,6 +21,9 @@ const handleRequest = frames(async (ctx) => {
         {txData.result?.data[message.buttonIndex - 1]?.description}
       </div>
     ),
+    imageOptions: {
+      aspectRatio: "1:1",
+    },
     buttons: [
       <Button
         action="tx"

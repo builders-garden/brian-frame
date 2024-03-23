@@ -1,6 +1,7 @@
 import { createFrames, Button } from "frames.js/next";
 import { generateCaptchaChallenge } from "../../lib/captcha";
 import { deleteBrianTransactionObject } from "../../lib/kv";
+import { vercelURL } from "../utils";
 
 const frames = createFrames();
 const handleRequest = frames(async (ctx) => {
@@ -13,13 +14,11 @@ const handleRequest = frames(async (ctx) => {
   }
   return {
     postUrl: "/loading?id=" + id,
-    image: (
-      <div tw="text-blue-500 flex p-8">
-        Hi, I&apos;m Brian, a Web3 AI assistant here to help you executing your
-        transactions.
-      </div>
-    ),
+    image: `${vercelURL()}/images/instructions.gif`,
     textInput: "I want to swap 10 USDC for ETH",
+    imageOptions: {
+      aspectRatio: "1:1",
+    },
     buttons: [
       <Button
         action="post"

@@ -5,6 +5,7 @@ import {
   NextServerPageProps,
   getPreviousFrame,
 } from "frames.js/next/server";
+import { vercelURL } from "./utils";
 
 export default function Page({ searchParams }: NextServerPageProps) {
   const previousFrame = getPreviousFrame(searchParams);
@@ -20,7 +21,7 @@ export default function Page({ searchParams }: NextServerPageProps) {
       >
         <FrameImage
           aspectRatio="1:1"
-          src="https://brian-frame.builders.garden/images/intro.gif"
+          src={`${vercelURL()}/images/intro.gif`}
         />
         <FrameButton>Start</FrameButton>
       </FrameContainer>

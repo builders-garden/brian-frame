@@ -133,6 +133,9 @@ const handleRequest = frames(async (ctx) => {
         })}
       </div>
     ),
+    imageOptions: {
+      aspectRatio: "1:1",
+    },
     buttons: [
       <Button action="post" key="1" target={`/confirm?id=${requestId}`}>
         Option 1️⃣

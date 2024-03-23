@@ -1,6 +1,7 @@
 import { getFrameMessage } from "frames.js/getFrameMessage";
 import { createFrames, Button } from "frames.js/next";
 import { validateCaptchaChallenge } from "../../../lib/captcha";
+import { vercelURL } from "../../utils";
 
 const frames = createFrames();
 const handleRequest = frames(async (ctx) => {
@@ -50,13 +51,11 @@ const handleRequest = frames(async (ctx) => {
   }
   return {
     postUrl: "/loading?id=" + captchaId,
-    image: (
-      <div tw="text-blue-500 flex p-8">
-        Type things like - Swap 10 USDC for ETH - and I&apos;ll help you build
-        the transaction
-      </div>
-    ),
+    image: `${vercelURL()}/images/instructions.gif`,
     textInput: "I want to swap 10 USDC for ETH",
+    imageOptions: {
+      aspectRatio: "1:1",
+    },
     buttons: [
       <Button
         action="post"

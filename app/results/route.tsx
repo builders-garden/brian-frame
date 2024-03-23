@@ -16,6 +16,9 @@ const handleRequest = frames(async (ctx) => {
   return {
     postUrl: "/captcha/validate?id=",
     image: <div tw="text-blue-500 flex">{message.transactionId}</div>,
+    imageOptions: {
+      aspectRatio: "1:1",
+    },
     buttons: [
       <Button
         action="tx"
