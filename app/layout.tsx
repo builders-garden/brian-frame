@@ -3,8 +3,8 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   // without a title, warpcast won't validate your frame
-  title: "frames.js starter",
-  description: "...",
+  title: "Brian Frame",
+  description: "A frame to send transactions by prompting in plain english",
 };
 
 export default function RootLayout({
