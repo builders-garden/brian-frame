@@ -1,25 +1,27 @@
 import { createPublicClient, http, parseEther, parseUnits } from "viem";
-import {base, optimism} from "viem/chains"
+import { base, optimism } from "viem/chains";
 import { ERC20_ABI } from "./constants/erc20";
 
 // function to check token allowance
 export async function checkAllowance(
-  tokenAddress: string, //fromToken address returned from brian 
+  tokenAddress: string, //fromToken address returned from brian
   owner: string, // user wallet connected
-  spender: string, // "to" address returned from brian
-  chainId: number, // fromChainId returned from brian
-) {
+  spender: string, // "toAddress" address returned from brian
+  chainId: number // fromChainId returned from brian
+): Promise<bigint> {
   const chain = chainId === 10 ? optimism : base;
   const publicClient = createPublicClient({
-        chain: chain,
-        transport: http(),
+    chain: chain,
+    transport: http(),
   });
   const allowance = await publicClient.readContract({
     address: tokenAddress as `0x${string}`,
     abi: ERC20_ABI,
-    functionName: 'allowance',
+    functionName: "allowance",
     args: [owner, spender],
-  })
+  });
 
-  return allowance;
+  return allowance as bigint;
 }
+
+// TODO: create a function to return approve calldata to exec client side
