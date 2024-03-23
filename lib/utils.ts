@@ -4,11 +4,10 @@ import { ERC20_ABI } from "./constants/erc20";
 
 // function to check token allowance
 export async function checkAllowance(
-  tokenAddress: string,
-  owner: string,
-  spender: string,
-  chainId: number,
-  to: string
+  tokenAddress: string, //fromToken address returned from brian 
+  owner: string, // user wallet connected
+  spender: string, // "to" address returned from brian
+  chainId: number, // fromChainId returned from brian
 ) {
   const chain = chainId === 10 ? optimism : base;
   const publicClient = createPublicClient({
@@ -16,7 +15,7 @@ export async function checkAllowance(
         transport: http(),
   });
   const allowance = await publicClient.readContract({
-    address: to as `0x${string}`,
+    address: tokenAddress as `0x${string}`,
     abi: ERC20_ABI,
     functionName: 'allowance',
     args: [owner, spender],
