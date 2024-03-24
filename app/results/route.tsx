@@ -22,7 +22,7 @@ const handleRequest = frames(async (ctx) => {
     },
     buttons: [
       <Button
-        action="tx"
+        action="post"
         key="1"
         target={`/build?id=${requestId}&restart=true`}
       >
@@ -33,10 +33,13 @@ const handleRequest = frames(async (ctx) => {
         key="2"
         target={`${txBaseUrl}${message.transactionId}`}
       >
-        Check transaction 🔗
+        Transaction 🔗
       </Button>,
-      <Button action="link" key="3" target={`https://builders.garden`}>
-        About builders garden 🌳
+      <Button action="link" key="3" target={`https://brianknows.org`}>
+        Brian 🧠
+      </Button>,
+      <Button action="link" key="4" target={`https://builders.garden`}>
+        builders garden 🌳
       </Button>,
     ],
   };

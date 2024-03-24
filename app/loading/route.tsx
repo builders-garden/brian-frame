@@ -118,23 +118,31 @@ const handleRequest = frames(async (ctx) => {
     image: (
       // TODO: render the 3 tx options properly
       // use options.png or options-1.png as background
-      <div tw="text-blue-500 flex p-8">
-        {txOptions?.data.map((txData, index) => {
-          return (
-            <div key={txOptions.action} tw="flex flex-col">
-              <img
-                width="20px"
-                alt={`logo-${index}`}
-                src={txData.steps[0]!.protocol.logoURI}
-              ></img>
-              {txData.steps[0]!.protocol.name} -{" "}
-              {parseUnits(
-                txData.toAmountMin,
-                txData.toToken.decimals
-              ).toString()}
-            </div>
-          );
-        })}
+      <div tw="relative flex items-center justify-center text-blue-500">
+        <img
+          src={`${vercelURL()}/images/options-1.png`}
+          tw="absolute"
+          width="400px"
+          height="400px"
+        />
+        <div tw="text-blue-500 flex flex-col p-8">
+          {txOptions?.data.map((txData, index) => {
+            return (
+              <div key={txOptions.action} tw="flex flex-col">
+                <img
+                  width="20px"
+                  alt={`logo-${index}`}
+                  src={txData.steps[0]!.protocol.logoURI}
+                ></img>
+                {txData.steps[0]!.protocol.name} -{" "}
+                {parseUnits(
+                  txData.toAmountMin,
+                  txData.toToken.decimals
+                ).toString()}
+              </div>
+            );
+          })}
+        </div>
       </div>
     ),
     imageOptions: {

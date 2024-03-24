@@ -7,6 +7,7 @@ import {
 import { getFrameMessage } from "frames.js/getFrameMessage";
 import { checkAllowance } from "../../lib/utils";
 import { frames } from "../../lib/frames";
+import { vercelURL } from "../utils";
 
 const handleRequest = frames(async (ctx) => {
   const url = new URL(ctx.request.url);
@@ -18,24 +19,14 @@ const handleRequest = frames(async (ctx) => {
   const choiceIndex = message.buttonIndex - 1;
   const allowance = await checkAllowance(
     txData.result?.data[choiceIndex]?.fromToken.address!,
-    message.requesterVerifiedAddresses[0]!,
-    txData.result?.data[choiceIndex]?.toAddress!,
-    txData.result?.data[choiceIndex]?.fromChainId!
-  );
-  console.log(
-    "Allowance",
-    allowance,
-    txData.result?.data[choiceIndex]?.fromAmount!,
-    BigInt(txData.result?.data[choiceIndex]?.fromAmount!)
+    txData.result?.data[choiceIndex]?.steps[0]!.from!,
+    txData.result?.data[choiceIndex]?.steps[0]!.to!,
+    txData.result?.data[choiceIndex]?.steps[0]!.chainId!
   );
   if (allowance < BigInt(txData.result?.data[choiceIndex]?.fromAmount!)) {
     return {
       postUrl: "/results",
-      image: (
-        <div tw="text-blue-500 flex">
-          You need to allow the contract to swap your tokens first
-        </div>
-      ),
+      image: `${vercelURL()}/images/approve.png`,
       imageOptions: {
         aspectRatio: "1:1",
       },
@@ -62,12 +53,22 @@ const handleRequest = frames(async (ctx) => {
     postUrl: "/results",
     image: (
       // TODO: render the selected tx option properly (images/selected.png)
-      <div tw="text-blue-500 flex">
-        {txData.result?.data[choiceIndex]?.description}
+      <div tw="relative flex items-center justify-center text-blue-500">
+        <img
+          src={`${vercelURL()}/images/selected.png`}
+          tw="absolute"
+          width="400px"
+          height="400px"
+        />
+        <div tw="relative z-10 flex">
+          {txData.result?.data[choiceIndex]?.description}
+        </div>
       </div>
     ),
     imageOptions: {
       aspectRatio: "1:1",
+      width: 400,
+      height: 400,
     },
     buttons: [
       <Button
