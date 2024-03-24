@@ -19,11 +19,11 @@ export default function Page({ searchParams }: NextServerPageProps) {
         state={{}}
         previousFrame={previousFrame}
       >
-        <FrameImage
-          aspectRatio="1:1"
-          src={`${vercelURL()}/images/intro.gif`}
-        />
-        <FrameButton>Start</FrameButton>
+        <FrameImage aspectRatio="1:1" src={`${vercelURL()}/images/intro.gif`} />
+        <FrameButton action="link" target="https://brianknows.org">
+          📚 Brian API
+        </FrameButton>
+        <FrameButton>🤖 Start </FrameButton>
       </FrameContainer>
     </div>
   );

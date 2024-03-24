@@ -37,13 +37,13 @@ const handleRequest = frames(async (ctx) => {
           target={`/api/approve-calldata?id=${requestId}&choice=${choiceIndex}`}
           post_url={`/confirm?id=${requestId}`}
         >
-          Approve
+          ✅ Approve
         </Button>,
         <Button action="post" key="1" target={`/confirm?id=${requestId}`}>
-          Refresh
+          🔁 Refresh
         </Button>,
         <Button action="post" key="2" target={`/loading?id=${requestId}`}>
-          Go back
+          ↩️ Go back
         </Button>,
       ],
     };
@@ -77,10 +77,10 @@ const handleRequest = frames(async (ctx) => {
         target={`/api/calldata?id=${requestId}&choice=${choiceIndex}`}
         post_url="/results?chainId="
       >
-        Confirm
+        ❌ Reject
       </Button>,
       <Button action="post" key="2" target={`/loading?id=${requestId}`}>
-        Go back
+        ✅ Confirm
       </Button>,
     ],
   };

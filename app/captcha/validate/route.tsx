@@ -15,7 +15,7 @@ const handleRequest = frames(async (ctx) => {
       image: `${vercelURL()}/images/captcha-error.png`,
       buttons: [
         <Button action="post" key="1" target={"/captcha"}>
-          Retry
+          🔄 Try again
         </Button>,
       ],
     };
@@ -33,7 +33,7 @@ const handleRequest = frames(async (ctx) => {
       image: `${vercelURL()}/images/captcha-error.png`,
       buttons: [
         <Button action="post" key="1" target={"/captcha"}>
-          Retry
+           🔄 Try again
         </Button>,
       ],
     };
@@ -51,7 +51,7 @@ const handleRequest = frames(async (ctx) => {
         key="1"
         target={`/loading?id=${captchaId}&requestTimestamp=${Date.now()}&status=start`}
       >
-        Build transaction
+         🔢 Submit prompt
       </Button>,
     ],
   };

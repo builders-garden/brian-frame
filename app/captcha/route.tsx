@@ -39,7 +39,7 @@ const handleRequest = frames(async () => {
     textInput: "Enter the result",
     buttons: [
       <Button action="post" key="1" target={`/captcha/validate?id=${id}`}>
-        Confirm
+        🔢 Submit captcha
       </Button>,
     ],
   };

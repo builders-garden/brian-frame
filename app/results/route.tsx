@@ -22,24 +22,24 @@ const handleRequest = frames(async (ctx) => {
     },
     buttons: [
       <Button
-        action="post"
-        key="1"
-        target={`/build?id=${requestId}&restart=true`}
-      >
-        Start over ↩️
-      </Button>,
-      <Button
         action="link"
-        key="2"
+        key="1"
         target={`${txBaseUrl}${message.transactionId}`}
       >
-        Transaction 🔗
+        🔗 Transaction
       </Button>,
-      <Button action="link" key="3" target={`https://brianknows.org`}>
-        Brian 🧠
+      <Button action="link" key="2" target={`https://brianknows.org`}>
+        📚 Brian API
       </Button>,
-      <Button action="link" key="4" target={`https://builders.garden`}>
-        builders garden 🌳
+      <Button action="link" key="3" target={`https://builders.garden`}>
+        🌳 builders garden
+      </Button>,
+      <Button
+        action="post"
+        key="4"
+        target={`/build?id=${requestId}&restart=true`}
+      >
+        ↩️ Start again
       </Button>,
     ],
   };
