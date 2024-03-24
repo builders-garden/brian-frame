@@ -23,6 +23,9 @@ export default function Page({ searchParams }: NextServerPageProps) {
         <FrameButton action="link" target="https://brianknows.org">
           📚 Brian API
         </FrameButton>
+        <FrameButton action="post" target="/instructions">
+          ℹ️ Instructions
+        </FrameButton>
         <FrameButton>🤖 Start </FrameButton>
       </FrameContainer>
     </div>
