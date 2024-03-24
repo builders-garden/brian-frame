@@ -33,7 +33,11 @@ const handleRequest = frames(async (ctx) => {
           aspectRatio: "1:1",
         },
         buttons: [
-          <Button action="post" key="1" target={`/build?id=${requestId}`}>
+          <Button
+            action="post"
+            key="1"
+            target={`/build?id=${requestId}&restart=true`}
+          >
             🔄 Try again
           </Button>,
         ],
@@ -43,6 +47,7 @@ const handleRequest = frames(async (ctx) => {
 
   const { result: txOptions, status: requestStatus } =
     await getBrianTransactionOptions(requestId!);
+
   if (requestStatus === TransactionCalldataRequestStatus.ERROR) {
     return {
       postUrl: "/results?id=${requestId}",

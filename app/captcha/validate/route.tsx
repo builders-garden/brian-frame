@@ -41,7 +41,7 @@ const handleRequest = frames(async (ctx) => {
   return {
     postUrl: "/loading?id=" + captchaId,
     image: `${vercelURL()}/images/instructions.gif`,
-    textInput: "I want to swap 0.1 ETH to USDC on Base",
+    textInput: "Swap 0.1 ETH to USDC on Base",
     imageOptions: {
       aspectRatio: "1:1",
     },

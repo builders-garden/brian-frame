@@ -14,6 +14,8 @@ const handleRequest = frames(async (ctx) => {
   const message = await getFrameMessage(body);
   const txData = await getBrianTransactionOptions(requestId!);
   const choiceIndex = message.buttonIndex - 1;
+  const connectedAddress = message.connectedAddress;
+  const from = txData.result?.data[choiceIndex]?.fromAddress;
   const isETH = txData.result?.data[choiceIndex]?.fromToken.address! === NATIVE;
   const allowance = !isETH
     ? await checkAllowance(
@@ -62,8 +64,21 @@ const handleRequest = frames(async (ctx) => {
           width="400px"
           height="400px"
         />
-        <div tw="relative z-10 flex text-white px-8 text-[20px]">
-          {txData.result?.data[choiceIndex]?.description}
+        <div tw="relative z-10 flex flex-col pt-8 px-8">
+          <div tw="flex text-white text-[16px]">
+            {txData.result?.data[choiceIndex]?.description}
+          </div>
+          {connectedAddress?.toLowerCase() !== from?.toLowerCase() && (
+            <div tw="text-[16px] text-amber-500 mt-2">
+              Warning: connected address does not match the Farcaster address.
+            </div>
+          )}
+          {connectedAddress?.toLowerCase() !== from?.toLowerCase() && (
+            <div tw="text-[16px] text-amber-500 mt-2">
+              Transaction may fail, or funds may be received on the Farcaster
+              address.
+            </div>
+          )}
         </div>
       </div>
     ),
