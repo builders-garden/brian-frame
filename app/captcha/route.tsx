@@ -14,6 +14,7 @@ const handleRequest = frames(async () => {
     ratio: "1:1",
     postUrl: "/captcha/validate?id=" + id,
     image: (
+      // TODO: render captcha image properly and find a way to include the font
       <div tw="relative flex items-center justify-center text-blue-500">
         <img
           src={`${vercelURL()}/images/captcha-compressed.png`}

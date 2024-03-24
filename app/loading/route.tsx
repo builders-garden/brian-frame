@@ -116,6 +116,8 @@ const handleRequest = frames(async (ctx) => {
   return {
     postUrl: `/results?id=${requestId}`,
     image: (
+      // TODO: render the 3 tx options properly
+      // use options.png or options-1.png as background
       <div tw="text-blue-500 flex p-8">
         {txOptions?.data.map((txData, index) => {
           return (

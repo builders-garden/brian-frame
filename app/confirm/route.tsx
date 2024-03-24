@@ -52,6 +52,7 @@ const handleRequest = frames(async (ctx) => {
   return {
     postUrl: "/results",
     image: (
+      // TODO: render the selected tx option properly (images/selected.png)
       <div tw="text-blue-500 flex">
         {txData.result?.data[choiceIndex]?.description}
       </div>
