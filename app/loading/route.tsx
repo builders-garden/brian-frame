@@ -124,6 +124,7 @@ const handleRequest = frames(async (ctx) => {
             <div key={txOptions.action} tw="flex flex-col">
               <img
                 width="20px"
+                height="20px"
                 alt={`logo-${index}`}
                 src={txData.steps[0]!.protocol.logoURI}
               ></img>
