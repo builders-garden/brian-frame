@@ -10,10 +10,10 @@ import { frames } from "../../lib/frames";
 import { vercelURL } from "../utils";
 
 const handleRequest = frames(async (ctx) => {
+  const body = await ctx.request.json();
   const url = new URL(ctx.request.url);
   const { searchParams } = url;
   const requestId = searchParams.get("id");
-  const body = await ctx.request.json();
   const message = await getFrameMessage(body);
   const txData = await getBrianTransactionOptions(requestId!);
   const choiceIndex = message.buttonIndex - 1;
@@ -75,18 +75,14 @@ const handleRequest = frames(async (ctx) => {
         action="tx"
         key="1"
         target={`/api/calldata?id=${requestId}&choice=${choiceIndex}`}
-        post_url="/results?chainId="
-      >
-        ❌ Reject
-      </Button>,
-      <Button
-        action="post"
-        key="2"
-        target={`/loading?id=${requestId}&chainId=${txData.result?.data[
+        post_url={`/results?id=${requestId}&chainId=${txData.result?.data[
           choiceIndex
         ]?.steps[0]!.chainId!}`}
       >
         ✅ Confirm
+      </Button>,
+      <Button action="post" key="2" target={`/loading?id=${requestId}`}>
+        ❌ Reject
       </Button>,
     ],
   };

@@ -1,7 +1,5 @@
-import { createFrames, Button } from "frames.js/next";
+import { Button } from "frames.js/next";
 import { generateCaptchaChallenge } from "../../lib/captcha";
-import { join } from "path";
-import * as fs from "fs";
 import { vercelURL } from "../utils";
 import { frames } from "../../lib/frames";
 

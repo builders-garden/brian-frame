@@ -3,13 +3,14 @@ import { getFrameMessage } from "frames.js/getFrameMessage";
 import { vercelURL } from "../utils";
 import { frames } from "../../lib/frames";
 import { base } from "viem/chains";
+import { validateFrameMessage } from "../../lib/pinata";
 
 const handleRequest = frames(async (ctx) => {
+  const body = await ctx.request.json();
   const url = new URL(ctx.request.url);
   const { searchParams } = url;
   const requestId = searchParams.get("id");
   const chainId = searchParams.get("chainId");
-  const body = await ctx.request.json();
   const message = await getFrameMessage(body);
   const txBaseUrl =
     parseInt(chainId!) === base.id

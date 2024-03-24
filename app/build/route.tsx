@@ -1,10 +1,10 @@
-import { createFrames, Button } from "frames.js/next";
-import { generateCaptchaChallenge } from "../../lib/captcha";
+import { Button } from "frames.js/next";
 import { deleteBrianTransactionObject } from "../../lib/kv";
 import { vercelURL } from "../utils";
 import { frames } from "../../lib/frames";
 
 const handleRequest = frames(async (ctx) => {
+  const body = await ctx.req.json();
   const url = new URL(ctx.request.url);
   const { searchParams } = url;
   const id = searchParams.get("id");

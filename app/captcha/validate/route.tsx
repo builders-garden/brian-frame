@@ -3,12 +3,13 @@ import { Button } from "frames.js/next";
 import { validateCaptchaChallenge } from "../../../lib/captcha";
 import { vercelURL } from "../../utils";
 import { frames } from "../../../lib/frames";
+import { validateFrameMessage } from "../../../lib/pinata";
 
 const handleRequest = frames(async (ctx) => {
   const { id: captchaId } = ctx.searchParams;
   const body = await ctx.request.json();
   const message = await getFrameMessage(body);
-  const inputText = message?.inputText;
+  const inputText = message.inputText;
   if (!inputText) {
     return {
       postUrl: "/captcha",
@@ -21,19 +22,19 @@ const handleRequest = frames(async (ctx) => {
     };
   }
 
-  const isValid = await validateCaptchaChallenge(
+  const isValidCaptcha = await validateCaptchaChallenge(
     captchaId!,
     parseInt(inputText)
   );
 
-  if (!isValid) {
+  if (!isValidCaptcha) {
     console.error("Invalid captcha", { captchaId, inputText });
     return {
       postUrl: "/captcha",
       image: `${vercelURL()}/images/captcha-error.png`,
       buttons: [
         <Button action="post" key="1" target={"/captcha"}>
-           🔄 Try again
+          🔄 Try again
         </Button>,
       ],
     };
@@ -51,7 +52,7 @@ const handleRequest = frames(async (ctx) => {
         key="1"
         target={`/loading?id=${captchaId}&requestTimestamp=${Date.now()}&status=start`}
       >
-         🔢 Submit prompt
+        🔢 Submit prompt
       </Button>,
     ],
   };
