@@ -6,6 +6,7 @@ export const frames = createFrames({
   basePath: "/",
   middleware: [
     async (ctx, next) => {
+      console.log("Middleware");
       const url = new URL(ctx.request.url);
       const body = await ctx.request
         .clone()
@@ -13,6 +14,7 @@ export const frames = createFrames({
         .catch(() => {
           throw new Error("Invalid body");
         });
+      console.log(body);
       if (vercelURL().includes("localhost")) {
         return next();
       }
@@ -22,6 +24,7 @@ export const frames = createFrames({
       }
       console.log("Sending analytics", body, url.pathname);
       await pinataFdk.sendAnalytics("brian-frame", body, url.pathname);
+      console.log("Sent analytics")
       return next();
     },
   ],
