@@ -8,6 +8,7 @@ import { getFrameMessage } from "frames.js/getFrameMessage";
 import { checkAllowance } from "../../lib/utils";
 import { frames } from "../../lib/frames";
 import { vercelURL } from "../utils";
+import { NATIVE } from "../../lib/constants/utils";
 
 const handleRequest = frames(async (ctx) => {
   const url = new URL(ctx.request.url);
@@ -23,7 +24,7 @@ const handleRequest = frames(async (ctx) => {
     txData.result?.data[choiceIndex]?.steps[0]!.to!,
     txData.result?.data[choiceIndex]?.steps[0]!.chainId!
   );
-  if (allowance < BigInt(txData.result?.data[choiceIndex]?.fromAmount!)) {
+  if (txData.result?.data[choiceIndex]?.fromToken.address! !== NATIVE && allowance < BigInt(txData.result?.data[choiceIndex]?.fromAmount!)) {
     return {
       postUrl: "/results",
       image: `${vercelURL()}/images/approve.png`,
@@ -37,13 +38,13 @@ const handleRequest = frames(async (ctx) => {
           target={`/api/approve-calldata?id=${requestId}&choice=${choiceIndex}`}
           post_url={`/confirm?id=${requestId}`}
         >
-          Approve
+          ✅ Approve
         </Button>,
         <Button action="post" key="1" target={`/confirm?id=${requestId}`}>
-          Refresh
+          🔁 Refresh
         </Button>,
         <Button action="post" key="2" target={`/loading?id=${requestId}`}>
-          Go back
+          ↩️ Go back
         </Button>,
       ],
     };
@@ -77,10 +78,16 @@ const handleRequest = frames(async (ctx) => {
         target={`/api/calldata?id=${requestId}&choice=${choiceIndex}`}
         post_url="/results?chainId="
       >
-        Confirm
+        ❌ Reject
       </Button>,
-      <Button action="post" key="2" target={`/loading?id=${requestId}`}>
-        Go back
+      <Button
+        action="post"
+        key="2"
+        target={`/loading?id=${requestId}&chainId=${txData.result?.data[
+          choiceIndex
+        ]?.steps[0]!.chainId!}`}
+      >
+        ✅ Confirm
       </Button>,
     ],
   };

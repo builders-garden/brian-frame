@@ -34,7 +34,7 @@ const handleRequest = frames(async (ctx) => {
         },
         buttons: [
           <Button action="post" key="1" target={`/build?id=${requestId}`}>
-            Start over ↩️
+            🔄 Try again
           </Button>,
         ],
       };
@@ -56,7 +56,7 @@ const handleRequest = frames(async (ctx) => {
           key="1"
           target={`/build?id=${requestId}&restart=true`}
         >
-          Try again
+          🔄 Try again
         </Button>,
       ],
     };
@@ -80,14 +80,14 @@ const handleRequest = frames(async (ctx) => {
             key="1"
             target={`/loading?id=${requestId}&requestTimestamp=${requestTimestamp}&status=loading`}
           >
-            Show response 🔁
+            💬 Show response
           </Button>,
           <Button
             action="post"
             key="1"
             target={`/build?id=${requestId}&restart=true`}
           >
-            Start over ↩️
+            🔄 Try again
           </Button>,
         ],
       };
@@ -104,7 +104,7 @@ const handleRequest = frames(async (ctx) => {
           key="1"
           target={`/loading?id=${requestId}&requestTimestamp=${requestTimestamp}&status=loading`}
         >
-          Show response 🔁
+          💬 Show response
         </Button>,
       ],
     };
@@ -154,20 +154,20 @@ const handleRequest = frames(async (ctx) => {
     },
     buttons: [
       <Button action="post" key="1" target={`/confirm?id=${requestId}`}>
-        Option 1️⃣
+        1
       </Button>,
       <Button action="post" key="2" target={`/confirm?id=${requestId}`}>
-        Option 2️⃣
+        2
       </Button>,
       <Button action="post" key="3" target={`/confirm?id=${requestId}`}>
-        Option 3️⃣
+        3
       </Button>,
       <Button
         action="post"
         key="4"
         target={`/build?id=${requestId}&restart=true`}
       >
-        Start over ↩️
+        ↩️ Start over
       </Button>,
     ],
   };
