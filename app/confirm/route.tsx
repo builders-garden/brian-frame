@@ -22,6 +22,12 @@ const handleRequest = frames(async (ctx) => {
     txData.result?.data[choiceIndex]?.toAddress!,
     txData.result?.data[choiceIndex]?.fromChainId!
   );
+  console.log(
+    "Allowance",
+    allowance,
+    txData.result?.data[choiceIndex]?.fromAmount!,
+    BigInt(txData.result?.data[choiceIndex]?.fromAmount!)
+  );
   if (allowance < BigInt(txData.result?.data[choiceIndex]?.fromAmount!)) {
     return {
       postUrl: "/results",
@@ -37,10 +43,13 @@ const handleRequest = frames(async (ctx) => {
         <Button
           action="tx"
           key="1"
-          target={`/approve-calldata?id=${requestId}&choice=${choiceIndex}`}
+          target={`/api/approve-calldata?id=${requestId}&choice=${choiceIndex}`}
           post_url={`/confirm?id=${requestId}`}
         >
           Approve
+        </Button>,
+        <Button action="post" key="1" target={`/confirm?id=${requestId}`}>
+          Refresh
         </Button>,
         <Button action="post" key="2" target={`/loading?id=${requestId}`}>
           Go back

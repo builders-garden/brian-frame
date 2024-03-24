@@ -98,6 +98,9 @@ const handleRequest = frames(async (ctx) => {
     return {
       postUrl: `/results?id=${requestId}`,
       image: `${vercelURL()}/images/loading.gif`,
+      imageOptions: {
+        aspectRatio: "1:1",
+      },
       buttons: [
         <Button
           action="post"
