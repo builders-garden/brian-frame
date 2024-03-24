@@ -8,6 +8,7 @@ import { getFrameMessage } from "frames.js/getFrameMessage";
 import { checkAllowance } from "../../lib/utils";
 import { frames } from "../../lib/frames";
 import { vercelURL } from "../utils";
+import { NATIVE } from "../../lib/constants/utils";
 
 const handleRequest = frames(async (ctx) => {
   const url = new URL(ctx.request.url);
@@ -23,7 +24,7 @@ const handleRequest = frames(async (ctx) => {
     txData.result?.data[choiceIndex]?.steps[0]!.to!,
     txData.result?.data[choiceIndex]?.steps[0]!.chainId!
   );
-  if (allowance < BigInt(txData.result?.data[choiceIndex]?.fromAmount!)) {
+  if (txData.result?.data[choiceIndex]?.fromToken.address! !== NATIVE && allowance < BigInt(txData.result?.data[choiceIndex]?.fromAmount!)) {
     return {
       postUrl: "/results",
       image: `${vercelURL()}/images/approve.png`,
