@@ -79,7 +79,13 @@ const handleRequest = frames(async (ctx) => {
       >
         ❌ Reject
       </Button>,
-      <Button action="post" key="2" target={`/loading?id=${requestId}`}>
+      <Button
+        action="post"
+        key="2"
+        target={`/loading?id=${requestId}&chainId=${txData.result?.data[
+          choiceIndex
+        ]?.steps[0]!.chainId!}`}
+      >
         ✅ Confirm
       </Button>,
     ],
