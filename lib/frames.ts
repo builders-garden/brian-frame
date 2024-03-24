@@ -20,11 +20,16 @@ export const frames = createFrames({
       }
       const { isValid } = await pinataFdk.validateFrameMessage(body);
       if (!isValid) {
+        console.error("Invalid frame message", body, url.pathname);
         throw new Error("Invalid frame message");
       }
       console.log("Sending analytics", body, url.pathname);
-      await pinataFdk.sendAnalytics("brian-frame", body, url.pathname);
-      console.log("Sent analytics")
+      try {
+        await pinataFdk.sendAnalytics("brian-frame", body, url.pathname);
+      } catch (e) {
+        console.error("Analytics error", e);
+      }
+      console.log("Sent analytics");
       return next();
     },
   ],
