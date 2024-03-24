@@ -23,9 +23,13 @@ export const frames = createFrames({
         console.error("Invalid frame message", body, url.pathname);
         throw new Error("Invalid frame message");
       }
-      console.log("Sending analytics", body, url.pathname);
+      console.log("Sending analytics", {
+        frameId: "brian-frame",
+        body,
+        customId: `${url.pathname}`,
+      });
       try {
-        await pinataFdk.sendAnalytics("brian-frame", body, url.pathname);
+        await pinataFdk.sendAnalytics("brian-frame", body, `${url.pathname}`);
       } catch (e) {
         console.error("Analytics error", e);
         throw e;
