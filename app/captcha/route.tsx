@@ -16,7 +16,7 @@ const handleRequest = frames(async () => {
           width="400px"
           height="400px"
         />
-        <div tw="relative z-10 flex">
+        <div tw="relative z-10 flex items-center justify-center mt-10 text-white font-bold">
           {numA} + {numB} = ?
         </div>
       </div>
