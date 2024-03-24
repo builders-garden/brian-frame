@@ -10,10 +10,12 @@ export async function checkAllowance(
   chainId: number // fromChainId returned from brian
 ): Promise<bigint> {
   const chain = chainId === 10 ? optimism : base;
+  console.log("Chain", chain);
   const publicClient = createPublicClient({
     chain: chain,
     transport: http(),
   });
+  console.log("Public client", publicClient);
   const allowance = await publicClient.readContract({
     address: tokenAddress as `0x${string}`,
     abi: ERC20_ABI,
