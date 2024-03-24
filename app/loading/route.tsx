@@ -97,10 +97,7 @@ const handleRequest = frames(async (ctx) => {
     }
     return {
       postUrl: `/results?id=${requestId}`,
-      image: <div tw="text-blue-500 flex p-8">Loading...</div>,
-      imageOptions: {
-        aspectRatio: "1:1",
-      },
+      image: `${vercelURL()}/images/loading.gif`,
       buttons: [
         <Button
           action="post"

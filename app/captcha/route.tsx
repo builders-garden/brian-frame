@@ -7,7 +7,6 @@ import { frames } from "../../lib/frames";
 
 const handleRequest = frames(async () => {
   const { id, numA, numB } = await generateCaptchaChallenge();
-  console.log({ id, numA, numB });
   return {
     postUrl: "/captcha/validate?id=" + id,
     image: (
