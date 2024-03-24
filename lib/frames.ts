@@ -29,7 +29,11 @@ export const frames = createFrames({
         customId: `${url.pathname}`,
       });
       try {
-        await pinataFdk.sendAnalytics("brian-frame", body, `${url.pathname}`);
+        await pinataFdk.sendAnalytics(
+          "brian-frame",
+          body,
+          `${url.pathname.split("/").join("_")}`
+        );
       } catch (e) {
         console.error("Analytics error", e);
         throw e;
