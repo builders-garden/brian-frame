@@ -25,6 +25,3 @@ export async function checkAllowance(
 
   return allowance as bigint;
 }
-
-// TODO: create a function to return approve calldata to exec client side
-
