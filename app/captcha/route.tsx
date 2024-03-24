@@ -1,7 +1,5 @@
-import { createFrames, Button } from "frames.js/next";
+import { Button } from "frames.js/next";
 import { generateCaptchaChallenge } from "../../lib/captcha";
-import { join } from "path";
-import * as fs from "fs";
 import { vercelURL } from "../utils";
 import { frames } from "../../lib/frames";
 
@@ -18,7 +16,7 @@ const handleRequest = frames(async () => {
           width="400px"
           height="400px"
         />
-        <div tw="relative z-10 flex">
+        <div tw="relative z-10 flex items-center justify-center mt-10 text-white font-bold">
           {numA} + {numB} = ?
         </div>
       </div>

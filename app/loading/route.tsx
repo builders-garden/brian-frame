@@ -1,10 +1,7 @@
-import { createFrames, Button } from "frames.js/next";
-import {
-  deleteBrianTransactionObject,
-  getBrianTransactionOptions,
-} from "../../lib/kv";
+import { Button } from "frames.js/next";
+import { getBrianTransactionOptions } from "../../lib/kv";
 import { getFrameMessage } from "frames.js/getFrameMessage";
-import { parseUnits } from "viem";
+import { formatUnits } from "viem";
 import { vercelURL } from "../utils";
 import { TransactionCalldataRequestStatus } from "../../lib/brian-api";
 import { frames } from "../../lib/frames";
@@ -116,29 +113,34 @@ const handleRequest = frames(async (ctx) => {
   return {
     postUrl: `/results?id=${requestId}`,
     image: (
-      // TODO: render the 3 tx options properly
-      // use options.png or options-1.png as background
-      <div tw="relative flex items-center justify-center text-blue-500">
+      <div tw="relative flex items-center justify-center">
         <img
           src={`${vercelURL()}/images/options-1.png`}
           tw="absolute"
           width="400px"
           height="400px"
         />
-        <div tw="text-blue-500 flex flex-col p-8">
+        <div tw="absolute text-white flex flex-col">
           {txOptions?.data.map((txData, index) => {
             return (
-              <div key={txOptions.action} tw="flex flex-col">
-                <img
-                  width="20px"
-                  alt={`logo-${index}`}
-                  src={txData.steps[0]!.protocol.logoURI}
-                ></img>
-                {txData.steps[0]!.protocol.name} -{" "}
-                {parseUnits(
-                  txData.toAmountMin,
-                  txData.toToken.decimals
-                ).toString()}
+              <div
+                key={txOptions.action}
+                tw="flex flex-row items-center rounded-lg bg-[#030620] px-4"
+              >
+                <h1 tw="text-[12px]">{index}</h1>
+                <div tw="flex flex-col text-[10px] ml-4">
+                  <div tw="flex">
+                    <span tw="text-gray-500 mr-2">Protocol:</span>{" "}
+                    {txData.steps[0]!.protocol.name}
+                  </div>
+                  <div tw="flex">
+                    <span tw="text-gray-500 mr-2">Receive min:</span>{" "}
+                    {formatUnits(
+                      BigInt(txData.toAmountMin),
+                      txData.toToken.decimals
+                    ).toString()}
+                  </div>
+                </div>
               </div>
             );
           })}
@@ -147,6 +149,8 @@ const handleRequest = frames(async (ctx) => {
     ),
     imageOptions: {
       aspectRatio: "1:1",
+      width: 400,
+      height: 400,
     },
     buttons: [
       <Button action="post" key="1" target={`/confirm?id=${requestId}`}>
