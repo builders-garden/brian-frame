@@ -2,7 +2,7 @@ import { FrameActionPayload, PinataFDK } from "pinata-fdk";
 import { vercelURL } from "../app/utils";
 
 export const pinataFdk = new PinataFDK({
-  pinata_jwt: process.env.PINATA_API_KEY!,
+  pinata_jwt: process.env.PINATA_JWT!,
   pinata_gateway: process.env.PINATA_GATEWAY!,
 });
 
