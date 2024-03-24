@@ -9,7 +9,6 @@ export const POST = async (req: Request) => {
 
   const id = searchParams.get("id");
   const userChoice = searchParams.get("choice");
-  console.log(id, userChoice);
   // get data from request id
   const transactionData = await getBrianTransactionOptions(id!);
   // get the transaction calldata of the chosen transaction object

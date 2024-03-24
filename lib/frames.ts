@@ -14,7 +14,6 @@ export const frames = createFrames({
         .catch(() => {
           throw new Error("Invalid body");
         });
-      console.log(body);
       if (vercelURL().includes("localhost")) {
         return next();
       }
@@ -23,11 +22,6 @@ export const frames = createFrames({
         console.error("Invalid frame message", body, url.pathname);
         throw new Error("Invalid frame message");
       }
-      console.log("Sending analytics", {
-        frameId: "brian-frame",
-        body,
-        customId: `${url.pathname}`,
-      });
       try {
         await pinataFdk.sendAnalytics(
           "brian-frame",
@@ -38,7 +32,6 @@ export const frames = createFrames({
         console.error("Analytics error", e);
         throw e;
       }
-      console.log("Sent analytics");
       return next();
     },
   ],

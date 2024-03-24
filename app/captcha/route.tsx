@@ -3,7 +3,16 @@ import { generateCaptchaChallenge } from "../../lib/captcha";
 import { vercelURL } from "../utils";
 import { frames } from "../../lib/frames";
 
+// without this line, this type of importing fonts doesn't work?
+/*export const runtime = "edge";
+
+const regularFont = fetch(
+  new URL("/public/Changa-VariableFont.ttf", import.meta.url)
+).then((res) => res.arrayBuffer());*/
+
 const handleRequest = frames(async () => {
+  //const regularFontData = await regularFont;
+
   const { id, numA, numB } = await generateCaptchaChallenge();
   return {
     postUrl: "/captcha/validate?id=" + id,
@@ -24,15 +33,13 @@ const handleRequest = frames(async () => {
       aspectRatio: "1:1",
       width: 400,
       height: 400,
-    },
-    /*imageOptions: {
-      fonts: [
+      /*fonts: [
         {
-          data: fontData,
+          data: regularFontData,
           name: "Changa",
         },
-      ],
-    },*/
+      ],*/
+    },
     textInput: "Enter the result",
     buttons: [
       <Button action="post" key="1" target={`/captcha/validate?id=${id}`}>
