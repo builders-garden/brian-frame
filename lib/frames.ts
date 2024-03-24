@@ -28,6 +28,7 @@ export const frames = createFrames({
         await pinataFdk.sendAnalytics("brian-frame", body, url.pathname);
       } catch (e) {
         console.error("Analytics error", e);
+        throw e;
       }
       console.log("Sent analytics");
       return next();
