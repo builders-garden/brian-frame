@@ -1,25 +1,18 @@
 import { getFrameMessage } from "frames.js/getFrameMessage";
-import { createFrames, Button } from "frames.js/next";
+import { Button } from "frames.js/next";
 import { validateCaptchaChallenge } from "../../../lib/captcha";
 import { vercelURL } from "../../utils";
 import { frames } from "../../../lib/frames";
 
 const handleRequest = frames(async (ctx) => {
-  const url = new URL(ctx.request.url);
-  const { searchParams } = url;
-  const captchaId = searchParams.get("id");
-  console.log("Validating captcha", { captchaId });
+  const { id: captchaId } = ctx.searchParams;
   const body = await ctx.request.json();
   const message = await getFrameMessage(body);
   const inputText = message?.inputText;
   if (!inputText) {
     return {
       postUrl: "/captcha",
-      image: (
-        <div className="text-blue-500" style={{ display: "flex" }}>
-          Provide an input text please
-        </div>
-      ),
+      image: `${vercelURL()}/images/captcha-error.png`,
       buttons: [
         <Button action="post" key="1" target={"/captcha"}>
           Retry

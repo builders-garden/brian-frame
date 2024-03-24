@@ -7,14 +7,14 @@ import { frames } from "../../lib/frames";
 
 const handleRequest = frames(async () => {
   const { id, numA, numB } = await generateCaptchaChallenge();
-  console.log(vercelURL());
+  console.log({ id, numA, numB });
   return {
     postUrl: "/captcha/validate?id=" + id,
     image: (
       // TODO: render captcha image properly and find a way to include the font
       <div tw="relative flex items-center justify-center text-blue-500">
         <img
-          src={`http://localhost:3001/images/captcha-compressed.png`}
+          src={`${vercelURL()}/images/captcha-compressed.png`}
           tw="absolute"
           width="400px"
           height="400px"
