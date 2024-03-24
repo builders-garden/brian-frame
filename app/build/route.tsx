@@ -4,7 +4,6 @@ import { vercelURL } from "../utils";
 import { frames } from "../../lib/frames";
 
 const handleRequest = frames(async (ctx) => {
-  const body = await ctx.req.json();
   const url = new URL(ctx.request.url);
   const { searchParams } = url;
   const id = searchParams.get("id");
@@ -15,7 +14,7 @@ const handleRequest = frames(async (ctx) => {
   return {
     postUrl: "/loading?id=" + id,
     image: `${vercelURL()}/images/instructions.gif`,
-    textInput: "I want to swap 10 USDC for ETH",
+    textInput: "I want to swap 0.01 ETH to USDC on Base",
     imageOptions: {
       aspectRatio: "1:1",
     },

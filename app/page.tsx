@@ -12,7 +12,7 @@ export default function Page({ searchParams }: NextServerPageProps) {
 
   return (
     <div className="p-4">
-      My existing page
+      <h1>Ciao</h1>
       <FrameContainer
         postUrl="/captcha"
         pathname="/"

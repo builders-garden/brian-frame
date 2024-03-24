@@ -3,7 +3,6 @@ import { Button } from "frames.js/next";
 import { validateCaptchaChallenge } from "../../../lib/captcha";
 import { vercelURL } from "../../utils";
 import { frames } from "../../../lib/frames";
-import { validateFrameMessage } from "../../../lib/pinata";
 
 const handleRequest = frames(async (ctx) => {
   const { id: captchaId } = ctx.searchParams;
@@ -42,7 +41,7 @@ const handleRequest = frames(async (ctx) => {
   return {
     postUrl: "/loading?id=" + captchaId,
     image: `${vercelURL()}/images/instructions.gif`,
-    textInput: "I want to swap 10 USDC for ETH",
+    textInput: "I want to swap 0.1 ETH to USDC on Base",
     imageOptions: {
       aspectRatio: "1:1",
     },
