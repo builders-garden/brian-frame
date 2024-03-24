@@ -120,25 +120,26 @@ const handleRequest = frames(async (ctx) => {
           width="400px"
           height="400px"
         />
-        <div tw="absolute text-white flex flex-col">
+        <div tw="text-white flex flex-col mt-16">
           {txOptions?.data.map((txData, index) => {
             return (
               <div
                 key={txOptions.action}
-                tw="flex flex-row items-center rounded-lg bg-[#030620] px-4"
+                tw="flex flex-row items-center justify-end rounded-lg bg-[#030620] px-4 h-[50px] w-[350px] mb-4"
               >
-                <h1 tw="text-[12px]">{index}</h1>
+                <h1 tw="text-[26px]">{index + 1}</h1>
                 <div tw="flex flex-col text-[10px] ml-4">
                   <div tw="flex">
-                    <span tw="text-gray-500 mr-2">Protocol:</span>{" "}
+                    <span tw="text-gray-500 mr-1">Protocol:</span>{" "}
                     {txData.steps[0]!.protocol.name}
                   </div>
                   <div tw="flex">
-                    <span tw="text-gray-500 mr-2">Receive min:</span>{" "}
+                    <span tw="text-gray-500 mr-1">Receive min:</span>{" "}
                     {formatUnits(
                       BigInt(txData.toAmountMin),
                       txData.toToken.decimals
-                    ).toString()}
+                    ).toString()}{" "}
+                    {txData.toToken.symbol}
                   </div>
                 </div>
               </div>
@@ -153,23 +154,29 @@ const handleRequest = frames(async (ctx) => {
       height: 400,
     },
     buttons: [
-      <Button action="post" key="1" target={`/confirm?id=${requestId}`}>
-        1
-      </Button>,
-      <Button action="post" key="2" target={`/confirm?id=${requestId}`}>
-        2
-      </Button>,
-      <Button action="post" key="3" target={`/confirm?id=${requestId}`}>
-        3
-      </Button>,
+      ...txOptions!.data.map((_, index) => (
+        <Button
+          action="post"
+          key={index + 1}
+          target={`/confirm?id=${requestId}`}
+        >
+          {`Route ${index + 1}`}
+        </Button>
+      )),
+      // <Button action="post" key="2" target={`/confirm?id=${requestId}`}>
+      //   2
+      // </Button>,
+      // <Button action="post" key="3" target={`/confirm?id=${requestId}`}>
+      //   3
+      // </Button>,
       <Button
         action="post"
-        key="4"
+        key={txOptions!.data.length + 1}
         target={`/build?id=${requestId}&restart=true`}
       >
         ↩️ Start over
       </Button>,
-    ],
+    ] as any,
   };
 });
 
