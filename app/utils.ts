@@ -15,5 +15,5 @@ export function currentURL(pathname: string): URL {
 export function vercelURL() {
   return process.env.VERCEL_URL
     ? `https://brian-frame.builders.garden`
-    : "http://localhost:3001";
+    : "http://localhost:3000";
 }

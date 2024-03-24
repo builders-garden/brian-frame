@@ -13,10 +13,10 @@ const handleRequest = frames(async () => {
         <img
           src={`${vercelURL()}/images/captcha-compressed.png`}
           tw="absolute"
-          width="400px"
-          height="400px"
+          width="410px"
+          height="410px"
         />
-        <div tw="relative z-10 flex items-center justify-center mt-10 text-white font-bold">
+        <div tw="relative z-10 flex items-center justify-center pt-10 text-white font-bold">
           {numA} + {numB} = ?
         </div>
       </div>
