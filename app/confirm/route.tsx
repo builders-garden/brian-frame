@@ -70,9 +70,7 @@ const handleRequest = frames(async (ctx) => {
           </div>
           {connectedAddress?.toLowerCase() !== from?.toLowerCase() && (
             <div tw="text-[16px] text-amber-500 mt-2">
-              Warning: if your connected address does not match the Farcaster
-              address, transaction might fail or funds may be received on the
-              Farcaster address.
+              Make sure to use your Farcaster connected wallet.
             </div>
           )}
         </div>

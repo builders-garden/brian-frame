@@ -13,6 +13,9 @@ const handleRequest = frames(async (ctx) => {
     return {
       postUrl: "/captcha",
       image: `${vercelURL()}/images/captcha-error.png`,
+      imageOptions: {
+        aspectRatio: "1:1",
+      },
       buttons: [
         <Button action="post" key="1" target={"/captcha"}>
           🔄 Try again
