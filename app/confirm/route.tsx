@@ -1,9 +1,5 @@
-import { createFrames, Button } from "frames.js/next";
-import { generateCaptchaChallenge } from "../../lib/captcha";
-import {
-  getBrianTransactionCalldata,
-  getBrianTransactionOptions,
-} from "../../lib/kv";
+import { Button } from "frames.js/next";
+import { getBrianTransactionOptions } from "../../lib/kv";
 import { getFrameMessage } from "frames.js/getFrameMessage";
 import { checkAllowance } from "../../lib/utils";
 import { frames } from "../../lib/frames";
@@ -18,13 +14,19 @@ const handleRequest = frames(async (ctx) => {
   const message = await getFrameMessage(body);
   const txData = await getBrianTransactionOptions(requestId!);
   const choiceIndex = message.buttonIndex - 1;
-  const allowance = await checkAllowance(
-    txData.result?.data[choiceIndex]?.fromToken.address!,
-    txData.result?.data[choiceIndex]?.steps[0]!.from!,
-    txData.result?.data[choiceIndex]?.steps[0]!.to!,
-    txData.result?.data[choiceIndex]?.steps[0]!.chainId!
-  );
-  if (txData.result?.data[choiceIndex]?.fromToken.address! !== NATIVE && allowance < BigInt(txData.result?.data[choiceIndex]?.fromAmount!)) {
+  const isETH = txData.result?.data[choiceIndex]?.fromToken.address! === NATIVE;
+  const allowance = !isETH
+    ? await checkAllowance(
+        txData.result?.data[choiceIndex]?.fromToken.address!,
+        txData.result?.data[choiceIndex]?.steps[0]!.from!,
+        txData.result?.data[choiceIndex]?.steps[0]!.to!,
+        txData.result?.data[choiceIndex]?.steps[0]!.chainId!
+      )
+    : BigInt(0);
+  if (
+    txData.result?.data[choiceIndex]?.fromToken.address! !== NATIVE &&
+    allowance < BigInt(txData.result?.data[choiceIndex]?.fromAmount!)
+  ) {
     return {
       postUrl: "/results",
       image: `${vercelURL()}/images/approve.png`,
@@ -53,15 +55,14 @@ const handleRequest = frames(async (ctx) => {
   return {
     postUrl: "/results",
     image: (
-      // TODO: render the selected tx option properly (images/selected.png)
-      <div tw="relative flex items-center justify-center text-blue-500">
+      <div tw="relative flex items-center justify-center">
         <img
           src={`${vercelURL()}/images/selected.png`}
           tw="absolute"
           width="400px"
           height="400px"
         />
-        <div tw="relative z-10 flex">
+        <div tw="relative z-10 flex text-white px-8 text-[20px]">
           {txData.result?.data[choiceIndex]?.description}
         </div>
       </div>
