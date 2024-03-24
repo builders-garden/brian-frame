@@ -25,7 +25,7 @@ const handleRequest = frames(async (ctx) => {
         key="1"
         target={`/loading?id=${id}&requestTimestamp=${Date.now()}&status=start`}
       >
-        Build transaction
+        🔢 Submit prompt
       </Button>,
     ],
   };
