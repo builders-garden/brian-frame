@@ -3,7 +3,7 @@ import {
   TransactionCalldataRequestStatus,
   TransactionCalldataResponse,
 } from "./brian-api";
-import { LIFI_DIAMOND_PROXY_ABI } from "./constants/lifi-diamond-proxy-abi";
+import { ENSO_ROUTER_ABI, LIFI_DIAMOND_PROXY_ABI } from "./constants/lifi-diamond-proxy-abi";
 
 export const storeBrianTransactionObject = async (
   transaction: TransactionCalldataResponse,
@@ -26,20 +26,23 @@ export const getBrianTransactionCalldata = async (
     `request/${id}`
   );
   // get from chain id
-  const fromChainId = transactionCalldata?.result?.data[userChoice]!.steps[0]?.chainId;
+  const fromChainId = transactionCalldata?.result?.data.steps[0]?.chainId;
   // get the transaction calldata of the chosen transaction object
   const transactionCalldataForUser =
-    transactionCalldata?.result?.data[userChoice]!.steps[0]?.data;
+    transactionCalldata?.result?.data.steps[0]?.data;
   // get the transaction value of the chosen transaction object
-  const transactionValue = transactionCalldata?.result?.data[userChoice]!.steps[0]?.value;
+  const transactionValue = transactionCalldata?.result?.data.steps[0]?.value;
   // get the transaction to address of the chosen transaction object
-  const transactionToAddress = transactionCalldata?.result?.data[userChoice]!.steps[0]?.to;
+  const transactionToAddress = transactionCalldata?.result?.data.steps[0]?.to;
+  // set abi for the transaction object
+  const abi = transactionToAddress === "0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE" ? LIFI_DIAMOND_PROXY_ABI : ENSO_ROUTER_ABI;
+  
 
   return {
     chainId: "eip155:".concat(fromChainId!.toString()),
     method: "eth_sendTransaction",
     params: {
-      abi: LIFI_DIAMOND_PROXY_ABI, 
+      abi: abi, 
       to: transactionToAddress,
       data: transactionCalldataForUser,
       value: transactionValue,

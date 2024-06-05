@@ -5,6 +5,8 @@ import { checkAllowance } from "../../lib/utils";
 import { frames } from "../../lib/frames";
 import { vercelURL } from "../utils";
 import { NATIVE } from "../../lib/constants/utils";
+import { parseUnits } from "viem";
+import { formatUnits } from "ethers/lib/utils";
 
 const handleRequest = frames(async (ctx) => {
   const body = await ctx.request.json();
@@ -15,19 +17,20 @@ const handleRequest = frames(async (ctx) => {
   const txData = await getBrianTransactionOptions(requestId!);
   const choiceIndex = message.buttonIndex - 1;
   const connectedAddress = message.connectedAddress;
-  const from = txData.result?.data[choiceIndex]?.fromAddress;
-  const isETH = txData.result?.data[choiceIndex]?.fromToken.address! === NATIVE;
+  const from = txData.result?.data.steps[0]?.from;
+  const isETH = txData.result?.data?.fromToken.address! === NATIVE;
+  const fromAmountNormalized = formatUnits(txData?.result?.data.fromAmount!, txData?.result?.data.fromToken!.decimals)
   const allowance = !isETH
     ? await checkAllowance(
-        txData.result?.data[choiceIndex]?.fromToken.address!,
-        txData.result?.data[choiceIndex]?.steps[0]!.from!,
-        txData.result?.data[choiceIndex]?.steps[0]!.to!,
-        txData.result?.data[choiceIndex]?.steps[0]!.chainId!
+        txData.result?.data.fromToken.address!,
+        txData.result?.data.steps[0]!.from!,
+        txData.result?.data.steps[0]!.to!,
+        txData.result?.data.steps[0]!.chainId!
       )
     : BigInt(0);
   if (
-    txData.result?.data[choiceIndex]?.fromToken.address! !== NATIVE &&
-    allowance < BigInt(txData.result?.data[choiceIndex]?.fromAmount!)
+    txData.result?.data.fromToken.address! !== NATIVE &&
+    allowance < BigInt(txData.result?.data.fromAmount!)
   ) {
     return {
       postUrl: "/results",
@@ -66,7 +69,7 @@ const handleRequest = frames(async (ctx) => {
         />
         <div tw="relative z-10 flex flex-col pt-8 px-8">
           <div tw="flex text-white text-[16px]">
-            {txData.result?.data[choiceIndex]?.description}
+            {txData.result?.data.description}
           </div>
           {connectedAddress?.toLowerCase() !== from?.toLowerCase() && (
             <div tw="text-[16px] text-amber-500 mt-2">
@@ -86,9 +89,7 @@ const handleRequest = frames(async (ctx) => {
         action="tx"
         key="1"
         target={`/api/calldata?id=${requestId}&choice=${choiceIndex}`}
-        post_url={`/results?id=${requestId}&chainId=${txData.result?.data[
-          choiceIndex
-        ]?.steps[0]!.chainId!}`}
+        post_url={`/results?id=${requestId}&chainId=${txData.result?.data.steps[0]!.chainId!}`}
       >
         ✅ Confirm
       </Button>,

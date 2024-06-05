@@ -1,5 +1,5 @@
 import { createPublicClient, http, parseEther, parseUnits } from "viem";
-import { base, optimism } from "viem/chains";
+import { arbitrum, base, optimism } from "viem/chains";
 import { ERC20_ABI } from "./constants/erc20";
 
 // function to check token allowance
@@ -9,13 +9,18 @@ export async function checkAllowance(
   spender: string, // "toAddress" address returned from brian
   chainId: number // fromChainId returned from brian
 ): Promise<bigint> {
-  const chain = chainId === 10 ? optimism : base;
-  console.log("Chain", chain);
+  let chain;
+  if (chainId === 10) {
+    chain = optimism;
+  } else if (chainId === 8453){
+    chain = base;
+  } else if(chainId === 42161){
+    chain = arbitrum;
+  }
   const publicClient = createPublicClient({
     chain: chain,
     transport: http(),
   });
-  console.log("Public client", publicClient);
   const allowance = await publicClient.readContract({
     address: tokenAddress as `0x${string}`,
     abi: ERC20_ABI,

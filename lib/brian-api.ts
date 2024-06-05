@@ -45,12 +45,15 @@ export interface TransactionData {
   toAmountMin: string;
   toToken: Token;
   toAddress: string;
+  receiver: string;
   steps: TransactionStep[];
 }
 
 export interface Transaction {
+  solver: string;
   action: string;
-  data: TransactionData[];
+  type: string;
+  data: TransactionData;
 }
 
 export enum TransactionCalldataRequestStatus {
@@ -89,6 +92,7 @@ export async function generateTransactionCalldata(
     body: JSON.stringify(data),
   });
   const responseData = await response.json();
+
   if (!response.ok || response.status !== 200) {
     console.error("Error in getting transaction calldata", responseData);
     return { status: TransactionCalldataRequestStatus.ERROR };

@@ -13,28 +13,18 @@ export const POST = async (req: Request) => {
   const transactionData = await getBrianTransactionOptions(id!);
   // get the transaction calldata of the chosen transaction object
   const transactionCalldataForUser =
-    transactionData?.result?.data[parseInt(userChoice!)]!;
+    transactionData?.result?.data!;
   // get the transaction values of the chosen transaction object
   const tokenAddress = transactionCalldataForUser.fromToken.address;
   const spender = transactionCalldataForUser.steps[0]?.to;
   const amount = transactionCalldataForUser.fromAmount;
   const chainId = transactionCalldataForUser.steps[0]?.chainId;
 
-  console.log("user choice", userChoice);
-  console.log({
-    tokenAddress,
-    spender,
-    amount,
-    chainId,
-  });
-
   const approveData = encodeFunctionData({
     abi: ERC20_ABI,
     functionName: "approve",
     args: [spender, amount],
   });
-
-  console.log("Transaction calldata", approveData);
 
   return NextResponse.json({
     chainId: "eip155:".concat(chainId!.toString()),

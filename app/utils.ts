@@ -8,12 +8,12 @@ export function currentURL(pathname: string): URL {
   try {
     return new URL(pathname, `${protocol}://${host}`);
   } catch (error) {
-    return new URL("http://localhost:3001");
+    return new URL("http://localhost:3000");
   }
 }
 
 export function vercelURL() {
   return process.env.VERCEL_URL
     ? `https://brian-frame.builders.garden`
-    : "http://localhost:3001";
+    : "http://localhost:3000";
 }

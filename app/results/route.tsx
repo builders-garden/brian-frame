@@ -2,7 +2,7 @@ import { Button } from "frames.js/next";
 import { getFrameMessage } from "frames.js/getFrameMessage";
 import { vercelURL } from "../utils";
 import { frames } from "../../lib/frames";
-import { base } from "viem/chains";
+import { arbitrum, base } from "viem/chains";
 import { validateFrameMessage } from "../../lib/pinata";
 
 const handleRequest = frames(async (ctx) => {
@@ -14,8 +14,10 @@ const handleRequest = frames(async (ctx) => {
   const message = await getFrameMessage(body);
   const txBaseUrl =
     parseInt(chainId!) === base.id
-      ? `https://basescan.org/tx/`
-      : `https://optimistic.etherscan.io/tx/`;
+      ? `https://basescan.org/tx/` :
+      parseInt(chainId!) === arbitrum.id ?
+       `https://arbiscan.io/tx/` : 
+       `https://optimistic.etherscan.io/tx/`
   return {
     postUrl: "/captcha/validate?id=",
     image: `${vercelURL()}/images/end.png`,

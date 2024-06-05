@@ -10,6 +10,5 @@ export const POST = async (req: Request) => {
     requestId!,
     parseInt(choice!)
   );
-  console.log("Transaction calldata", txCalldata);
   return NextResponse.json(txCalldata);
 };
