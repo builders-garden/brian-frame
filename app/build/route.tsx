@@ -8,13 +8,14 @@ const handleRequest = frames(async (ctx) => {
   const { searchParams } = url;
   const id = searchParams.get("id");
   const restart = searchParams.get("restart") === "true";
+  console.log("Restart", restart);
   if (restart) {
     await deleteBrianTransactionObject(id!);
   }
   return {
     postUrl: "/loading?id=" + id,
     image: `${vercelURL()}/images/instructions.gif`,
-    textInput: "Swap 0.01 ETH to USDC on Arbitrum",
+    textInput: "Swap 1 usdc to eth on arbitrum",
     imageOptions: {
       aspectRatio: "1:1",
     },

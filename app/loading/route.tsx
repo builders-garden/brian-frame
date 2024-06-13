@@ -185,94 +185,188 @@ const handleRequest = frames(async (ctx) => {
       </Button>,
     ] as any,
   };*/
-  return {
-    postUrl: `/results?id=${requestId}`,
-    image: (
-      <div tw="relative flex items-center justify-center">
-        <img
-          src={`${vercelURL()}/images/options-1.png`}
-          tw="absolute"
-          width="400px"
-          height="400px"
-        />
-        <div tw="text-white flex flex-col mt-16">
-          <div
-            key={txOptions!.action}
-            tw="flex flex-row items-center justify-start rounded-lg bg-[#030620] px-4 h-[110px] w-[350px] mb-4"
-          >
-            <div tw="flex flex-col items-center mr-4">
-              <img
-                src={txOptions!.data.fromToken.logoURI}
-                alt={`${txOptions!.data.fromToken.symbol} logo`}
-                tw="w-6 h-6 mb-2"
-              />
-              <img
-                src={txOptions!.data.toToken.logoURI}
-                alt={`${txOptions!.data.toToken.symbol} logo`}
-                tw="w-6 h-6"
-              />
-            </div>
-            <div tw="flex flex-col text-[10px]">
-              <div tw="flex">
-                <span tw="text-gray-500 mr-1">From:</span>{" "}
-                {txOptions!.data.fromToken.symbol}
+  // return image depending on the txOptions action
+  console.log(txOptions!.action, "txOptions!.action")
+  if(txOptions!.action === "transfer") {
+    return {
+      postUrl: `/results?id=${requestId}`,
+      image: (
+        <div tw="relative flex items-center justify-center">
+          <img
+            src={`${vercelURL()}/images/options-1.png`}
+            tw="absolute"
+            width="400px"
+            height="400px"
+          />
+          <div tw="text-white flex flex-col mt-16">
+            <div
+              key={txOptions!.action}
+              tw="flex flex-row items-center justify-start rounded-lg bg-[#030620] px-4 h-[110px] w-[350px] mb-4"
+            >
+              <div tw="flex flex-col items-center mr-4">
+                <img
+                  src={txOptions!.data.fromToken.logoURI}
+                  alt={`${txOptions!.data.fromToken.symbol} logo`}
+                  tw="w-6 h-6 mb-2"
+                />
+                <img
+                  src={txOptions!.data.toToken.logoURI}
+                  alt={`${txOptions!.data.toToken.symbol} logo`}
+                  tw="w-6 h-6"
+                />
               </div>
-              <div tw="flex">
-                <span tw="text-gray-500 mr-1">To:</span>{" "}
-                {txOptions!.data.toToken.symbol}
-              </div>
-              <div tw="flex">
-              <span tw="text-gray-500 mr-1">From Chain ID:</span>{" "}
-              {txOptions!.data.fromChainId}
-              </div>
-              <div tw="flex">
-                <span tw="text-gray-500 mr-1">To Chain ID:</span>{" "}
-                {txOptions!.data.toChainId}
-              </div>
-              <div tw="flex">
-                <span tw="text-gray-500 mr-1">Solver:</span>{" "}
-                {txOptions!.data.steps[0]!.protocol.name}
-              </div>
-              <div tw="flex">
-                <span tw="text-gray-500 mr-1">Receive min:</span>{" "}
-                {formatUnits(BigInt(txOptions!.data.toAmountMin), txOptions!.data.toToken.decimals).toString()}{" "}
-                {txOptions!.data.toToken.symbol}{" "}
-                <span tw="text-gray-500">({txOptions!.data.toAmountUSD} USD)</span>
+              <div tw="flex flex-col text-[10px]">
+                <div tw="flex">
+                  <span tw="text-gray-500 mr-1">From:</span>{" "}
+                  {txOptions!.data.fromToken.symbol}
                 </div>
-            <div tw="flex">
-              <span tw="text-gray-500 mr-1">Receiver:</span>{" "}
-              {txOptions!.data.receiver}
+                <div tw="flex">
+                  <span tw="text-gray-500 mr-1">To:</span>{" "}
+                  {txOptions!.data.toToken.symbol}
+                </div>
+                <div tw="flex">
+                <span tw="text-gray-500 mr-1">From Chain ID:</span>{" "}
+                {txOptions!.data.fromChainId}
+                </div>
+                <div tw="flex">
+                  <span tw="text-gray-500 mr-1">To Chain ID:</span>{" "}
+                  {txOptions!.data.toChainId}
+                </div>
+              <div tw="flex">
+                <span tw="text-gray-500 mr-1">Receiver:</span>{" "}
+                {txOptions!.data.receiver}
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  ),
-    imageOptions: {
-      aspectRatio: "1:1",
-      width: 400,
-      height: 400,
-    },
-    buttons: [
-      <Button
-        action="post"
-        key="1"
-        target={`/confirm?id=${requestId}`}
-      >
-        Execute Route
-      </Button>,
-      <Button
-        action="post"
-        key="2"
-        target={`/build?id=${requestId}&restart=true`}
-      >
-        ↩️ Start over
-      </Button>,
-    ] as any,
-  };
-  
-
-  
+    ),
+      imageOptions: {
+        aspectRatio: "1:1",
+        width: 400,
+        height: 400,
+      },
+      buttons: [
+        <Button
+          action="post"
+          key="1"
+          target={`/confirm?id=${requestId}`}
+        >
+          Execute Route
+        </Button>,
+        <Button
+          action="post"
+          key="2"
+          target={`/build?id=${requestId}&restart=true`}
+        >
+          ↩️ Start over
+        </Button>,
+      ] as any,
+    };
+  } else if(txOptions!.action === "swap" || txOptions!.action === "bridge") {
+    return {
+      postUrl: `/results?id=${requestId}`,
+      image: (
+        <div tw="relative flex items-center justify-center">
+          <img
+            src={`${vercelURL()}/images/options-1.png`}
+            tw="absolute"
+            width="400px"
+            height="400px"
+          />
+          <div tw="text-white flex flex-col mt-16">
+            <div
+              key={txOptions!.action}
+              tw="flex flex-row items-center justify-start rounded-lg bg-[#030620] px-4 h-[110px] w-[350px] mb-4"
+            >
+              <div tw="flex flex-col items-center mr-4">
+                <img
+                  src={txOptions!.data.fromToken.logoURI}
+                  alt={`${txOptions!.data.fromToken.symbol} logo`}
+                  tw="w-6 h-6 mb-2"
+                />
+                <img
+                  src={txOptions!.data.toToken.logoURI}
+                  alt={`${txOptions!.data.toToken.symbol} logo`}
+                  tw="w-6 h-6"
+                />
+              </div>
+              <div tw="flex flex-col text-[10px]">
+                <div tw="flex">
+                  <span tw="text-gray-500 mr-1">From:</span>{" "}
+                  {txOptions!.data.fromToken.symbol}
+                </div>
+                <div tw="flex">
+                  <span tw="text-gray-500 mr-1">To:</span>{" "}
+                  {txOptions!.data.toToken.symbol}
+                </div>
+                <div tw="flex">
+                <span tw="text-gray-500 mr-1">From Chain ID:</span>{" "}
+                {txOptions!.data.fromChainId}
+                </div>
+                <div tw="flex">
+                  <span tw="text-gray-500 mr-1">To Chain ID:</span>{" "}
+                  {txOptions!.data.toChainId}
+                </div>
+                <div tw="flex">
+                  <span tw="text-gray-500 mr-1">Solver:</span>{" "}
+                  {txOptions!.data.steps[0]!.protocol.name}
+                </div>
+                <div tw="flex">
+                  <span tw="text-gray-500 mr-1">Receive min:</span>{" "}
+                  {formatUnits(BigInt(txOptions!.data.toAmountMin), txOptions!.data.toToken.decimals).toString()}{" "}
+                  {txOptions!.data.toToken.symbol}{" "}
+                  <span tw="text-gray-500">({txOptions!.data.toAmountUSD} USD)</span>
+                  </div>
+              <div tw="flex">
+                <span tw="text-gray-500 mr-1">Receiver:</span>{" "}
+                {txOptions!.data.receiver}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    ),
+      imageOptions: {
+        aspectRatio: "1:1",
+        width: 400,
+        height: 400,
+      },
+      buttons: [
+        <Button
+          action="post"
+          key="1"
+          target={`/confirm?id=${requestId}`}
+        >
+          Execute Route
+        </Button>,
+        <Button
+          action="post"
+          key="2"
+          target={`/build?id=${requestId}&restart=true`}
+        >
+          ↩️ Start over
+        </Button>,
+      ] as any,
+    };
+  } else {
+    return {
+      postUrl: "/results?id=${requestId}",
+      image: `${vercelURL()}/images/error.png`,
+      imageOptions: {
+        aspectRatio: "1:1",
+      },
+      buttons: [
+        <Button
+          action="post"
+          key="1"
+          target={`/build?id=${requestId}&restart=true`}
+        >
+          🔄 Try again
+        </Button>,
+      ],
+    };
+  } 
 });
 
 export const GET = handleRequest;
