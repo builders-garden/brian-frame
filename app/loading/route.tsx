@@ -314,9 +314,9 @@ const handleRequest = frames(async (ctx) => {
                 </div>
                 <div tw="flex">
                   <span tw="text-gray-500 mr-1">Receive min:</span>{" "}
-                  {formatUnits(BigInt(txOptions!.data.toAmountMin), txOptions!.data.toToken.decimals).toString()}{" "}
+                  {Number(formatUnits(BigInt(txOptions!.data.toAmountMin), txOptions!.data.toToken.decimals).toString()).toFixed(8)}{" "}
                   {txOptions!.data.toToken.symbol}{" "}
-                  <span tw="text-gray-500">({txOptions!.data.toAmountUSD} USD)</span>
+                  <span tw="text-gray-500">({Number(txOptions!.data.toAmountUSD).toFixed(2)} USD)</span>
                   </div>
               <div tw="flex">
                 <span tw="text-gray-500 mr-1">Receiver:</span>{" "}

@@ -22,6 +22,8 @@ const handleRequest = frames(async (ctx) => {
   const from = txData.result?.data.steps[0]?.from;
   const isETH = txData.result?.data?.fromToken.address! === NATIVE;
   const fromAmountNormalized = formatUnits(txData?.result?.data.fromAmount!, txData?.result?.data.fromToken!.decimals)
+  const shortAddress = connectedAddress?.slice(0, 6) + "..." + connectedAddress?.slice(-4);
+  const routerSolver = txData.result?.solver === "Enso" ? "Enso" : "Lifi";
   const allowance = !isETH
     ? await checkAllowance(
         txData.result?.data.fromToken.address!,
@@ -36,9 +38,41 @@ const handleRequest = frames(async (ctx) => {
   ) {
     return {
       postUrl: "/results",
-      image: `${vercelURL()}/images/approve.png`,
+      //image: `${vercelURL()}/images/approve.png`,
+      image: (
+        <div tw="relative flex items-center justify-center">
+          <img
+            src={`${vercelURL()}/images/approve.png`}
+            tw="absolute"
+            width="400px"
+            height="400px"
+          />
+          <div tw="text-white flex flex-col mt-16">
+            <div
+              key={txData!.result?.action}
+              tw="flex flex-row items-center justify-start rounded-lg bg-[#030620] px-4 h-[110px] w-[350px] mb-4"
+            >
+              <div tw="flex flex-col text-[14px]">
+              <div tw="flex">
+                <span tw="text-gray-500 mr-1">You (</span>
+                <span tw="text-gray-500 mr-1">{shortAddress}</span>
+                <span tw="text-gray-500">) are going to approve </span>
+              </div>
+              <div tw="flex">
+                <span tw="text-gray-500">{routerSolver} router to spend {fromAmountNormalized} {txData.result?.data?.fromToken.symbol!}</span>
+              </div>
+              <div tw="flex">
+                <span tw="text-gray-500"> for the {txData.result?.action!} transaction </span>
+              </div>
+            </div>
+            </div>
+          </div>
+        </div>
+      ),
       imageOptions: {
         aspectRatio: "1:1",
+        width: 400,
+        height: 400,
       },
       buttons: [
         <Button
