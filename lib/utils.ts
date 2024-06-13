@@ -21,12 +21,14 @@ export async function checkAllowance(
     chain: chain,
     transport: http(),
   });
+  console.log("Checking allowance", tokenAddress, owner, spender);
   const allowance = await publicClient.readContract({
     address: tokenAddress as `0x${string}`,
     abi: ERC20_ABI,
     functionName: "allowance",
     args: [owner, spender],
   });
+  console.log("Allowance", allowance);
 
   return allowance as bigint;
 }

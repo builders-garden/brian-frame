@@ -7,6 +7,7 @@ import { vercelURL } from "../utils";
 import { NATIVE } from "../../lib/constants/utils";
 import { parseUnits } from "viem";
 import { formatUnits } from "ethers/lib/utils";
+import { getConnectedAddressesForFID } from "../../lib/airstack";
 
 const handleRequest = frames(async (ctx) => {
   const body = await ctx.request.json();
@@ -16,7 +17,8 @@ const handleRequest = frames(async (ctx) => {
   const message = await getFrameMessage(body);
   const txData = await getBrianTransactionOptions(requestId!);
   const choiceIndex = message.buttonIndex - 1;
-  const connectedAddress = message.connectedAddress;
+  //const connectedAddress = message.connectedAddress;
+  const connectedAddress = await getConnectedAddressesForFID(message.requesterFid.toString())
   const from = txData.result?.data.steps[0]?.from;
   const isETH = txData.result?.data?.fromToken.address! === NATIVE;
   const fromAmountNormalized = formatUnits(txData?.result?.data.fromAmount!, txData?.result?.data.fromToken!.decimals)

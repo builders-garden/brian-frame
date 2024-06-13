@@ -35,9 +35,6 @@ const handleRequest = frames(async (ctx) => {
       <Button action="link" key="2" target={`https://brianknows.org`}>
         📚 Brian API
       </Button>,
-      <Button action="link" key="3" target={`https://builders.garden`}>
-        🌳 builders garden
-      </Button>,
       <Button
         action="post"
         key="4"
